@@ -5,97 +5,98 @@ date: '2022-04-23'
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
-#Environment Setup
-
-install.packages(c("tidyverse", "tidycensus", "tigris", "sf", "censusapi", "curl", "httr"))
-
-PayloadPackages <- rlang::quos(tidyverse, tidycensus, tigris, sf, censusapi, curl, httr)
-
-invisible(lapply(lapply(PayloadPackages, rlang::quo_name),
-  library,
-  character.only = TRUE
-))
-
-# install.packages("dplyr")
-library(dplyr) #tools for working with data frames
-
-library(forcats)
-
-library(ggplot2) #graphing library
-
-# install.packages("ggforce")
-library(ggforce)
-
-library(readr)
-
-library(reshape2)
-
-library(data.table) #Read in our CSV file faster than read or readr
-
-# # install.packages("devtools")
-library(devtools) #Tools to Make Developing R Packages Easier
-
-# # devtools::install_github("crsh/papaja")
-library(papaja) #Works with .bib files to generate APA formats
-
-# devtools::install_github("crsh/citr")
-library(citr)
-
-# set_config(
-# use_proxy(url="", port="")
-# )
-set_config(config(ssl_verifypeer = 0L))
-set_config(use_proxy(url="10.3.100.207",port=8080))
-
-Sys.setenv(no_proxy="*")
-
-options(internet.info=0)
-
-options(download.file.method="curl")
-options(download.file.extra = paste0("--noproxy ", "https://api.census.gov"))
-handle_reset("https://api.census.gov/data/2019/cps/internet/nov")
-
-curl::handle_setopt:
-options(timeout=300)
-
-curl_version()
-ie_proxy_info()
-
-h <- new_handle(proxy = "http://8.8.8.8:8080", verbose = TRUE)
-req <- curl_fetch_memory("https://httpbin.org/get", handle = h)
-
-Sys.setenv(ALL_PROXY = "http://8.8.8.8:8080")
-req <- curl_fetch_memory("https://httpbin.org/get")
-
-# Add census API key to .Renviron
-Sys.setenv(CENSUS_KEY="68960b90025550aad3ec8b60d4918b43cbd44705")
-# Reload .Renviron
-readRenviron("~/.Renviron")
-# Check to see that the expected key is output in your R console
-Sys.getenv("CENSUS_KEY")
+```{r LoadCensusData, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
 
 #Load 2019 CPS Computer & Internet Usage Supplemental
 
-#dfCPSSupplemental <- fread("https://www2.census.gov/programs-surveys/cps/datasets/2019/supp/nov19pub.csv")
+#Read in "Census Data - CPS Computer & Internet Usage Supplemental" containing our dependent variable.
 
-# df2019CPSComputerSupplement <- httr::GET("https://api.census.gov/data/2019/cps/internet/nov?get=HRHHID,HRYEAR4,HETENURE,HEHOUSUT,HRNUMHOU,GEREG,GEDIV, PESEX,PEEDUCA,PTDTRACE,PRPERTYP,PEMJOT,PRMJIND1,PENLFACT,PRNLFSCH,PESCHLVL,HECBULLY,HEFAMINC&key=68960b90025550aad3ec8b60d4918b43cbd44705", config = httr::config(connecttimeout = 300))
-
-# df <- getCensus(name = "acs/acs5", vintage = 2016,
-# + 	vars = c("B01001_001E", "NAME", "B01002_001E", "B19013_001E"),
-# + 	region = "tract:*", regionin = "state:06")
-
-apis <- listCensusApis()
-View(apis)
-
-
-df2019CPSComputerSupplement <- getCensus( 
+dfCPS2019ComputerSupplement <- getCensus( 
                 name = "cps/internet/nov", 
                 vintage = 2019,
-                vars = c("HRHHID", "HRYEAR4", "HETENURE", "HEHOUSUT", "HRNUMHOU", "GEREG", "PESEX", "PEEDUCA", "PTDTRACE", "PRPERTYP", "PEMJOT", "PRMJIND1", "PENLFACT", "PRNLFSCH", "PESCHLVL", "HECBULLY", "HEFAMINC"))
+                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "PESEX", "PEEDUCA", "PTDTRACE", "PRNLFSCH", "PRDISFLG", "HEDESKTP", "HELAPTOP", "HETABLET", "HEMPHONE", "HETVBOX", "HEINHOME", "HEHOMTE1", "PETEXTIM", "PESOCIAL", "HEPSCON6", "HECBULLY"))
 
-rm(df2019CPSComputerSupplement)
+dfCPS2017ComputerSupplement <- getCensus( 
+                name = "cps/internet/nov", 
+                vintage = 2017,
+                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "PESEX", "PEEDUCA", "PTDTRACE", "PRNLFSCH", "PRDISFLG", "HEDESKTP", "HELAPTOP", "HETABLET", "HEMPHONE", "HETVBOX", "HEINHOME", "HEHOMTE1", "PETEXTIM", "PESOCIAL", "HEPSCON6", "HECBULLY"))
+
+dfCPS2015ComputerSupplement <- getCensus( 
+                name = "cps/internet/jul", 
+                vintage = 2015,
+                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "PESEX", "PEEDUCA", "PTDTRACE", "PRNLFSCH", "PRDISFLG", "HEDESKTP", "HELAPTOP", "HETABLET", "HEMPHONE", "HETVBOX", "HEINHOME", "HEHOMTE1", "PETEXTIM", "PESOCIAL", "HEPSCON6", "HECBULLY"))
+
+```
+
+```{r ShapeCensusData, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Combine all 3 survey years and cleanup
+dfCPSComputerSupplement <- bind_rows(dfCPS2019ComputerSupplement, dfCPS2017ComputerSupplement, dfCPS2015ComputerSupplement)
+rm(dfCPS2019ComputerSupplement)
+rm(dfCPS2017ComputerSupplement)
+rm(dfCPS2015ComputerSupplement)
+
+# Give columns friendly names
+dfCPSComputerSupplement <- dfCPSComputerSupplement %>%
+  rename(HouseholdID = HRHHID,
+         InterviewYear = HRYEAR4,
+         FamilyIncome = HEFAMINC,
+         USState = GESTFIPS,
+         Gender = PESEX,
+         EducationLevelCode = PEEDUCA,
+         Race = PTDTRACE,
+         IsStudent = PRNLFSCH,
+         HasDisability = PRDISFLG,
+         HaveDesktop = HEDESKTP, 
+         HaveLaptop = HELAPTOP, 
+         HaveTablet = HETABLET, 
+         HaveSmartPhone = HEMPHONE, 
+         HaveTVGamingSystem = HETVBOX, 
+         HaveHomeIternet = HEINHOME, 
+         HaveHighSpeedInternet = HEHOMTE1,
+         UseTexting = PETEXTIM,
+         UseSocialMedia = PESOCIAL,
+         HighestConcernisBullying = HEPSCON6,
+         CyberBullied = HECBULLY
+         )
+
+# Define look up tables of survey data values from metadata definitions
+dfFamilyIncome <- data.frame("FamilyIncome" = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11","12","13","14","15", "16"),
+                  "FamilyIncomeRange" = c("LESS THAN $5,000","5,000 TO 7,499","7,500 TO 9,999","10,000 TO 12,499","12,500 TO 14,999", "15,000 TO 19,999", "20,000 TO 24,999", "25,000 TO 29,999", "30,000 TO 34,999", "35,000 TO 39,999", "40,000 TO 49,999", "50,000 TO 59,999", "60,000 TO 74,999", " 75,000 TO 99,999", "100,000 TO 149,999", "150,000 OR MORE"))
+
+dfUSStates <- data.frame("USState" = c("01", "02", "04", "05", "06", "08", "09", "10", "11", "12", "13", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "44", "45", "46", "47", "48", "49", "50", "51", "53", "54", "55", "56"), 
+                             "StateAbbreviation" = c("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"))
+
+dfGender <- data.frame("Gender" = c("1","2"),
+                       "GenderIdentifier" = c("male","female")) # Sad in so many non-binary ways
+
+dfEducationLevel <- data.frame("EducationLevelCode" = c("31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47"),
+                               "EducationLevel" = c("LESS THAN 1ST GRADE", "1ST, 2ND, 3RD OR 4TH GRADE", "5TH OR 6TH GRADE", "7TH OR 8TH GRADE", "9TH GRADE", "10TH GRADE", "11TH GRADE", "12TH GRADE", "NO DIPLOMA", "HIGH SCHOOL GRAD-DIPLOMA OR EQUIV (GED)", "SOME COLLEGE BUT NO DEGREE", "ASSOCIATE DEGREE-OCCUPATIONAL/VOCATIONAL", "ASSOCIATE DEGREE-ACADEMIC PROGRAM", "BACHELOR'S DEGREE (EX: BA, AB, BS)", "MASTER'S DEGREE (EX: MA, MS, MEng, MEd, MSW)", "PROFESSIONAL SCHOOL DEG (EX: MD, DDS, DVM)", "DOCTORATE DEGREE (EX: PhD, EdD)"))
+
+dfRace <- data.frame("Race" = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"),
+                     "RaceDescription" = c("White Only", "Black Only", "American Indian, Alaskan Native Only", "Asian Only", "Hawaiian/Pacific Islander Only", "White-Black", "White-AI", "White-Asian", "White-HP", "Black-AI", "Black-Asian", "Black-HP", "AI-Asian", "AI-HP", "Asian-HP", "W-B-AI", "W-B-A", "W-B-HP", "W-AI-A", "W-AI-HP", "W-A-HP", "B-AI-A", "W-B-AI-A", "W-AI-A-HP", "Other 3 Race Combinations", "Other 4 and 5 Race Combinations"))
+
+dfStudentStatus <- data.frame("IsStudent" = c("1", "2"),
+                             "StudentStatus" =  c("IN SCHOOL", "NOT IN SCHOOL"))
+
+dfYesNoAnswers <- data.frame("CyberBullied" = c("-1","1","2"), "CyberBulliedAnswer" = c("NA","Yes","No"))
+
+# Replace survey values with friendly values from look up tables
+dfCPSComputerSupplement$EducationLevelCode <- as.character(dfCPSComputerSupplement$EducationLevelCode)
+dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfEducationLevel, by="EducationLevelCode", all.x=TRUE)
+dfCPSComputerSupplement$Gender <- as.character(dfCPSComputerSupplement$Gender)
+dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfGender, by="Gender", all.x=TRUE)
+dfCPSComputerSupplement$Race <- as.character(dfCPSComputerSupplement$Race)
+dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfRace, by="Race", all.x=TRUE)
+dfCPSComputerSupplement$IsStudent <- as.character(dfCPSComputerSupplement$IsStudent)
+dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfStudentStatus, by="IsStudent", all.x=TRUE)
+dfCPSComputerSupplement$USState <- as.character(dfCPSComputerSupplement$USState)
+dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfUSStates, by="USState", all.x=TRUE)
+dfCPSComputerSupplement$FamilyIncome <- as.character(dfCPSComputerSupplement$FamilyIncome)
+dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfFamilyIncome, by="FamilyIncome", all.x=TRUE)
+dfCPSComputerSupplement$CyberBullied <- as.character(dfCPSComputerSupplement$CyberBullied)
+dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfYesNoAnswers, by="CyberBullied", all.x=TRUE)
 
 ```

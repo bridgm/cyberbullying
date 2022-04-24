@@ -113,7 +113,7 @@ Sys.getenv("CENSUS_KEY")
 
 ```
 
-```{r, echo=FALSE, results='hide'}
+```{r LoadCensusData, echo=FALSE, results='hide'}
 #Read in "Census Data - CPS Computer & Internet Usage Supplemental" containing our dependent variable.
 
 dfCPS2019ComputerSupplement <- getCensus( 
@@ -166,6 +166,9 @@ dfFamilyIncome <- data.frame("FamilyIncome" = c("1", "2", "3", "4", "5", "6", "7
 dfYesNoAnswers <- data.frame("CyberBullied" = c("-1","1","2"), "Answer" = c("NA","Yes","No"))
 
 dfCPSSubset$FamilyIncome <- as.character(dfCPSSubset$FamilyIncome)
+
+
+
 dfCPSSubset <- merge(dfCPSSubset, dfFamilyIncome, by="FamilyIncome", all.x=TRUE)
 
 dfCPSSubset$CyberBullied <- as.character(dfCPSSubset$CyberBullied)
