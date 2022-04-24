@@ -1,0 +1,274 @@
+---
+title             : "Progress Report 3"
+shorttitle        : "Report_3"
+
+author: 
+  - name          : "Bridger Moreland"
+    affiliation   : "1"
+
+affiliation:
+  - id            : "1"
+    institution   : "Vanderbilt University, Peabody College"
+    
+class             : "LLO-8200, Introduction to Data Science"
+
+professor         : "Dr. Rafael Garcia"
+
+date              : "4/13/2022"
+  
+keywords          : "Cyber Bullying"
+wordcount         : "1380"
+
+bibliography      : "references.bib"
+nocite            : "@*"
+
+floatsintext      : no
+linenumbers       : no
+draft             : no
+mask              : no
+
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+
+classoption       : "man"
+output            : papaja::apa6_pdf
+
+---
+
+# Research Question
+     
+  With the US holding one of the top spots in Social Network penetration at over 70 percent of the population[@statista_2022], our country's engagement in social media accounts is consuming increasingly more of our waking time. Along with the proliferation of connected devices and continuous saturation of high-speed internet access comes a reduction in time spent with genuine personal connections and trading face to face experiences for virtual ones, averaging 10% of our waking time. 70% of parents estimate that their children spend over four hours per day in virtual interactions on their devices. [@security_2022] The results of our technology driven obsessions has been a deterioration in empathetic behaviors and other social skills necessary for successfully working within communities, professional teams, and establishing a sense of belonging to groups of people in our lives. Taking the place of friendly banter has been aggression, hostility, and a lack of remorse for how negative actions affect others.
+  
+  According to Pew Research Center [@auxier_anderson_perrin_turner_2020], four in ten Americans have battled online abuse in some form, often escalating to more severe behaviors such as stalking and sexual harassment. Difficulties arise in quantitative measurements for identifying bullying behaviors and collecting data on their frequencies in given populations as there is no set definition of "Cyber Bullying". Researchers must rely on self-reported data from respondents, each with their own list of words and actions they perceive as an attack. Research has begun on identifying factors that influence harassment such as socioeconomic, ethnic, or other diversity criteria. [@national_crime_prevention_council_2022] In that vein, I will attempt to assess the pressure points that increase the likely hood of becoming an online victim. My research question for this data analysis will be "Do household economic indicators (independent variable) indicate an increased likelihood of cyber bullying (dependent variable) in the US?"
+
+
+# Literature Review
+
+  The digital divide doesn't only span generations within the US. There are also obstacles between families with and without access to technology as revealed by studies showing 15% of students in America do not have access to more than one device at home. [@moore_vitale_stawinoga_2018] Aside from a lack of access to devices, those that reside in rural areas face challenges with the ability to access the internet. Astoundingly, nearly three million Americans live in what is considered higher education deserts, meaning they reside 25 miles or more from a public university and lack access to high-speed internet. These differences only amplify the chasm that can be felt between socioeconomic groups within our school system.
+  
+  The US has moved from the participatory child of previous generations to the one observed by many, and observing many, from the safety of their screens. Under that purview we struggle to protect children from the power of the internet and its ability to disparage and demean the people on the other side of mindless messaging. Of those that will speak up against it, forty-three percent of teens reported being victims of cyberbullying in the past year. [@national_crime_prevention_council_2022] It has become a force to manage within the daily demands of educators and employers alike, distracting from learning and workplace productivity. The ease at which perpetrators can attack without leaving their couch has fast become one of the laziest crimes in America, with the added destructive result of emotional and physical toil on its victims. 
+The rise of social media, and the technology impact in general, adds to the general feeling that children are being exposed at too young an age to dogma that they are not yet equipped to process. One of the more popular platforms with children under 11, YouTube, does more than entertain that age group. About 46% of parents reported that their child was exposed to videos that were age inappropriate for them. [@auxier_anderson_perrin_turner_2020] In the attempt to shield the younger generation from these ills, surveyed parents across demographics consider it harder to raise children in today’s age of technology. Limited screen time seems to be one of the bigger challenges in controlling a child’s environment as percent of time per day devoted to technology continues to rise in the younger generation. The technology struggle, however, isn’t limited to children, as 68% of parents also admit to being distracted by their devices when they are spending time with their children. 
+
+  The combination of an always on, always connected, mentality along with the disassociation with physical groups only worsens the impact of the disturbing trend in cyber bulling among the US population. While all types of bullying have been prevalent in our past, that same affliction to force ones will on another through feelings of jealousy, fear, distrust, and the overall need dominate through mental or verbal abuse, has been magnified through the lens of a connected world. What once was pain that could be hidden is now blasted to the masses and documented for posterity, taunting the prey and impeding recovery from the victimization. And the attacks are escalating. Severe forms of harassment, physical threats, sexual harassment, and stalking, only made up 15% of incidents reported in 2014 and has now grown to 25% of today’s cyber bullying incidents. [@auxier_anderson_perrin_turner_2020]
+	
+  Due to the reverse impact socioeconomic standing has on internet and device availability, it is believed that the more affluent social media users will be victimized to a greater extend by Cyber Bullies than those from lesser household means. The following data is presented as a review of how a family's income could possibly increase chances of falling victim to personal cyber-attacks through social media.
+
+  
+## Data analysis
+  
+  For this effort I will be using a data set derived from the US Census Bureau where respondents were asked about online harassment, stalking, or cyber-bullying for any member of their household. Data was collected from the November 2019 Current Population Survey, Computer, and Internet Use Supplement [@2019_cps_computer_and_internet_use_2019].
+  
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#Environment Setup
+
+install.packages(c("tidyverse", "tidycensus", "tigris", "sf", "censusapi", "curl", "httr", "dplyr", "forcats", "ggplot2", "ggforce", "readr", "reshape2", "devtools", "papaja", "citr"))
+install.packages("ggforce")
+
+PayloadPackages <- rlang::quos(tidyverse, tidycensus, tigris, sf, censusapi, curl, httr, dplyr, forcats, ggplot2, ggforce, readr, reshape2, devtools, papaja, citr)
+
+invisible(lapply(lapply(PayloadPackages, rlang::quo_name),
+  library,
+  character.only = TRUE
+))
+
+
+# Add census API key to .Renviron
+Sys.setenv(CENSUS_KEY="68960b90025550aad3ec8b60d4918b43cbd44705")
+# Reload .Renviron
+readRenviron("~/.Renviron")
+# Check to see that the expected key is output in your R console
+Sys.getenv("CENSUS_KEY")
+
+
+```
+
+```{r, echo=FALSE, results='hide'}
+#Read in "Census Data - CPS Computer & Internet Usage Supplemental" containing our dependent variable.
+
+dfCPS2019ComputerSupplement <- getCensus( 
+                name = "cps/internet/nov", 
+                vintage = 2019,
+                vars = c("HRHHID", "HRYEAR4", "HETENURE", "HEHOUSUT", "HRNUMHOU", "GEREG", "PESEX", "PEEDUCA", "PTDTRACE", "PRPERTYP", "PEMJOT", "PRMJIND1", "PENLFACT", "PRNLFSCH", "PESCHLVL", "HECBULLY", "HEFAMINC"))
+
+dfCPS2017ComputerSupplement <- getCensus( 
+                name = "cps/internet/nov", 
+                vintage = 2017,
+                vars = c("HRHHID", "HRYEAR4", "HETENURE", "HEHOUSUT", "HRNUMHOU", "GEREG", "PESEX", "PEEDUCA", "PTDTRACE", "PRPERTYP", "PEMJOT", "PRMJIND1", "PENLFACT", "PRNLFSCH", "PESCHLVL", "HECBULLY", "HEFAMINC"))
+
+dfCPS2015ComputerSupplement <- getCensus( 
+                name = "cps/internet/jul", 
+                vintage = 2015,
+                vars = c("HRHHID", "HRYEAR4", "HETENURE", "HEHOUSUT", "HRNUMHOU", "GEREG", "PESEX", "PEEDUCA", "PTDTRACE", "PRPERTYP", "PEMJOT", "PRMJIND1", "PENLFACT", "PRNLFSCH", "PESCHLVL", "HECBULLY", "HEFAMINC"))
+
+
+dfCPSComputerSupplement <- bind_rows(dfCPS2019ComputerSupplement, dfCPS2017ComputerSupplement, dfCPS2015ComputerSupplement)
+
+rm(dfCPS2017ComputerSupplement)
+rm(dfCPS2017ComputerSupplement)
+rm(dfCPS2015ComputerSupplement)
+
+
+
+
+dfCPSSubset <- dfCPSSupplemental %>%
+  select(HRHHID, HRYEAR4, HETENURE, HEHOUSUT, HRNUMHOU, GEREG, GEDIV, PESEX, PEEDUCA, PTDTRACE, PRPERTYP, PEMJOT, PRMJIND1, PENLFACT, PRNLFSCH, PESCHLVL, HECBULLY, HEFAMINC)
+
+
+dfCPSSubset <- dfCPSSubset %>%
+  rename(HouseholdID = HRHHID,
+         InterviewYear = HRYEAR4,
+         OwnRentHousing = HETENURE,
+         HousingType = HEHOUSUT,
+         HouseholdSize = HRNUMHOU,
+         GeographicRegion = GEREG,
+         GeographicDivision = GEDIV,
+         Gender = PESEX,
+         EducationLevel = PEEDUCA,
+         Race = PTDTRACE,
+         ChildAdult = PRPERTYP,
+         MultipleJobs = PEMJOT,
+         WorkIndustry = PRMJIND1,
+         CurrentSituation = PENLFACT,
+         Student = PRNLFSCH,
+         HighSchoolCollege = PESCHLVL,
+         CyberBullied = HECBULLY,
+         FamilyIncome = HEFAMINC
+         )
+
+dfCPSSubset <- filter(dfCPSSubset, dfCPSSubset$CyberBullied > "0")
+
+dfFamilyIncome <- data.frame("FamilyIncome" = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11","12","13","14","15", "16"),
+                  "FamilyIncomeRange" = c("LESS THAN $5,000","5,000 TO 7,499","7,500 TO 9,999","10,000 TO 12,499","12,500 TO 14,999", "15,000 TO 19,999", "20,000 TO 24,999", "25,000 TO 29,999", "30,000 TO 34,999", "35,000 TO 39,999", "40,000 TO 49,999", "50,000 TO 59,999", "60,000 TO 74,999", " 75,000 TO 99,999", "100,000 TO 149,999", "150,000 OR MORE"))
+
+dfYesNoAnswers <- data.frame("CyberBullied" = c("-1","1","2"), "Answer" = c("NA","Yes","No"))
+
+dfCPSSubset$FamilyIncome <- as.character(dfCPSSubset$FamilyIncome)
+dfCPSSubset <- merge(dfCPSSubset, dfFamilyIncome, by="FamilyIncome", all.x=TRUE)
+
+dfCPSSubset$CyberBullied <- as.character(dfCPSSubset$CyberBullied)
+dfCPSSubset <- merge(dfCPSSubset, dfYesNoAnswers, by="CyberBullied", all.x=TRUE)
+dfCPSSubset <- dfCPSSubset %>%
+  rename(CyberBulliedAnswer = Answer)
+
+
+```
+
+## Cyber Bullying experienced in the US by Household Income Levels.
+
+```{r, echo=FALSE}
+dfCPSSubset$FamilyIncome <- as.numeric(as.character(dfCPSSubset$FamilyIncome))
+dfCPSSubset$CyberBullied <- as.numeric(as.character(dfCPSSubset$CyberBullied))
+x = dfCPSSubset$FamilyIncome
+y1 = dfCPSSubset$CyberBullied
+
+# histogram
+ggplot(dfCPSSubset, aes(x=x, stat="count", color=y1)) +
+  geom_density(fill="blue", alpha=0.5, position="identity")+
+  labs (x = "Family Income Range",
+        title  = "Reported Cyber Bullying by Family Economic Level")
+
+
+dfCPSSubset %>% count(FamilyIncome, FamilyIncomeRange, CyberBulliedAnswer="Yes")
+
+
+```
+
+## Conditional mean of dependent variables:
+  
+  
+```{r, echo=FALSE}
+
+objDependentVariable <- dfCPSSubset$CyberBullied
+objIndependentVariable1 <- dfCPSSubset$FamilyIncomeRange
+
+summarise(dfCPSSubset, '% Cyber Bullied' = mean(objDependentVariable))
+
+by(data = objDependentVariable, INDICES = objIndependentVariable1, FUN = mean)
+
+dfCPSSubset |>
+  group_by(CyberBullied, FamilyIncome) |>
+  summarise(mean = mean(CyberBullied), se = sd(CyberBullied) / sqrt(length(CyberBullied)), .groups = "drop") |>
+  label_variables(CyberBullied = "Cyber Bullied", FamilyIncome = "Family Income", mean = "*M*", se = "*SE*") |>
+  apa_table(caption = "Mean Experiened Cyber Bullying (with standard errors)")
+
+
+```
+
+## Bivariate graphics comparing dependent variables with independent variables:
+  
+```{r, echo=FALSE, warning=FALSE}
+
+x = dfCPSSubset$FamilyIncomeRange
+y2 = dfCPSSubset$CyberBulliedAnswer
+y1 = dfCPSSubset$Gender
+
+to_plot <- data.frame(x=x,y1=y1,y2=y2)
+melted <- melt(to_plot, id="x")
+
+ggplot(melted,aes(x=x,y=value,fill=variable)) + geom_bar(stat="identity", position = "dodge", alpha=.5) +
+  labs (y = "Gender",
+        title  = "Occurence of Cyber Bullying by Family Income Bracket by Gender") +
+  coord_flip() +
+  xlab("Family Income Bracket") +
+  theme(legend.position="bottom") +
+  scale_fill_manual(name = "Cyber Bullying?",
+                    values = c("Cyan", "Orange"),
+                    labels = c("Yes", "No"))
+
+
+```
+
+```{r, echo=FALSE, warning=FALSE}
+
+y = dfCPSSubset$CyberBulliedAnswer
+x = dfCPSSubset$EducationLevel
+
+# scatterplot with linear fit line
+ggplot(dfCPSSubset,
+       aes(x = EducationLevel, 
+           y = CyberBullied)) +
+  geom_area(color= "steelblue", fill="steelblue") +
+  geom_smooth(method = "lm", formula='y~x', color="indian red")
+
+```
+
+```{r, echo=FALSE}
+
+y = dfCPSSubset$CyberBulliedAnswer
+x = dfCPSSubset$GeographicDivision
+
+ggplot(to_plot,
+       aes(x = x,
+           y = y)) +
+
+  geom_jitter(alpha=.8) +
+  geom_smooth(formula = y ~ x, method = "lm") +
+  labs(title = "Cyber Bullying by Geographic Divisions",
+       x = "Geographic Division",
+       y = "Cyber Bullying Incidents") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+# Next Steps
+  
+  The next steps toward identifying possible leading indicators of targets to Cyber Bullying will include extending the temporal data set with a second census survey and analyzing any changes in reported Cyber Bullying cases using data science tools available in R, a validation of the predictive model, and a summary of the findings. 
+
+
+```{r}
+
+```
+
+\newpage
+
+# References
+```{r create_r-references}
+
+```
+
+
+

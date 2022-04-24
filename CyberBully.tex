@@ -1,0 +1,396 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  man,LLO-8200, Introduction to Data Science]{apa6}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Progress Report 3},
+  pdfauthor={Bridger Moreland1},
+  pdflang={en-EN},
+  pdfkeywords={Cyber Bullying},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+% Manuscript styling
+\usepackage{upgreek}
+\captionsetup{font=singlespacing,justification=justified}
+
+% Table formatting
+\usepackage{longtable}
+\usepackage{lscape}
+% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
+\usepackage{multirow}		% Table styling
+\usepackage{tabularx}		% Control Column width
+\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
+\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+
+% Create new environments so endfloat can handle them
+% \newenvironment{ltable}
+%   {\begin{landscape}\centering\begin{threeparttable}}
+%   {\end{threeparttable}\end{landscape}}
+\newenvironment{lltable}{\begin{landscape}\centering\begin{ThreePartTable}}{\end{ThreePartTable}\end{landscape}}
+
+% Enables adjusting longtable caption width to table width
+% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
+
+% \setlength{\parindent}{0.5in}
+% \setlength{\parskip}{0pt plus 0pt minus 0pt}
+
+% Overwrite redefinition of paragraph and subparagraph by the default LaTeX template
+% See https://github.com/crsh/papaja/issues/292
+\makeatletter
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\parindent}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries\itshape\typesectitle}}
+
+\renewcommand{\subparagraph}[1]{\@startsection{subparagraph}{5}{1em}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-\z@\relax}%
+  {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
+\makeatother
+
+% \usepackage{etoolbox}
+\makeatletter
+\patchcmd{\HyOrg@maketitle}
+  {\section{\normalfont\normalsize\abstractname}}
+  {\section*{\normalfont\normalsize\abstractname}}
+  {}{\typeout{Failed to patch abstract.}}
+\patchcmd{\HyOrg@maketitle}
+  {\section{\protect\normalfont{\@title}}}
+  {\section*{\protect\normalfont{\@title}}}
+  {}{\typeout{Failed to patch title.}}
+\makeatother
+
+\usepackage{xpatch}
+\makeatletter
+\xapptocmd\appendix
+  {\xapptocmd\section
+    {\addcontentsline{toc}{section}{\appendixname\ifoneappendix\else~\theappendix\fi\\: #1}}
+    {}{\InnerPatchFailed}%
+  }
+{}{\PatchFailed}
+\keywords{Cyber Bullying\newline\indent Word count: 1380}
+\DeclareDelayedFloatFlavor{ThreePartTable}{table}
+\DeclareDelayedFloatFlavor{lltable}{table}
+\DeclareDelayedFloatFlavor*{longtable}{table}
+\makeatletter
+\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
+\makeatother
+\usepackage{csquotes}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Progress Report 3}
+\author{Bridger Moreland\textsuperscript{1}}
+\date{4/13/2022}
+
+
+\shorttitle{Report\_3}
+
+\affiliation{\vspace{0.5cm}\textsuperscript{1} Vanderbilt University, Peabody College}
+
+\begin{document}
+\maketitle
+
+\hypertarget{research-question}{%
+\section{Research Question}\label{research-question}}
+
+With the US holding one of the top spots in Social Network penetration at over 70 percent of the population({``Topic,''} 2022), our country's engagement in social media accounts is consuming increasingly more of our waking time. Along with the proliferation of connected devices and continuous saturation of high-speed internet access comes a reduction in time spent with genuine personal connections and trading face to face experiences for virtual ones, averaging 10\% of our waking time. 70\% of parents estimate that their children spend over four hours per day in virtual interactions on their devices. ({``Cyberbullying,''} 2022) The results of our technology driven obsessions has been a deterioration in empathetic behaviors and other social skills necessary for successfully working within communities, professional teams, and establishing a sense of belonging to groups of people in our lives. Taking the place of friendly banter has been aggression, hostility, and a lack of remorse for how negative actions affect others.
+
+According to Pew Research Center (Auxier, Anderson, Perrin, \& Turner, 2020), four in ten Americans have battled online abuse in some form, often escalating to more severe behaviors such as stalking and sexual harassment. Difficulties arise in quantitative measurements for identifying bullying behaviors and collecting data on their frequencies in given populations as there is no set definition of ``Cyber Bullying''. Researchers must rely on self-reported data from respondents, each with their own list of words and actions they perceive as an attack. Research has begun on identifying factors that influence harassment such as socioeconomic, ethnic, or other diversity criteria. ({``Cyberbullying Research Brief - Archive.ncpc.org,''} 2022) In that vein, I will attempt to assess the pressure points that increase the likely hood of becoming an online victim. My research question for this data analysis will be ``Do household economic indicators (independent variable) indicate an increased likelihood of cyber bullying (dependent variable) in the US?''
+
+\hypertarget{literature-review}{%
+\section{Literature Review}\label{literature-review}}
+
+The digital divide doesn't only span generations within the US. There are also obstacles between families with and without access to technology as revealed by studies showing 15\% of students in America do not have access to more than one device at home. (Moore, Vitale, \& Stawinoga, 2018) Aside from a lack of access to devices, those that reside in rural areas face challenges with the ability to access the internet. Astoundingly, nearly three million Americans live in what is considered higher education deserts, meaning they reside 25 miles or more from a public university and lack access to high-speed internet. These differences only amplify the chasm that can be felt between socioeconomic groups within our school system.
+
+The US has moved from the participatory child of previous generations to the one observed by many, and observing many, from the safety of their screens. Under that purview we struggle to protect children from the power of the internet and its ability to disparage and demean the people on the other side of mindless messaging. Of those that will speak up against it, forty-three percent of teens reported being victims of cyberbullying in the past year. ({``Cyberbullying Research Brief - Archive.ncpc.org,''} 2022) It has become a force to manage within the daily demands of educators and employers alike, distracting from learning and workplace productivity. The ease at which perpetrators can attack without leaving their couch has fast become one of the laziest crimes in America, with the added destructive result of emotional and physical toil on its victims.
+The rise of social media, and the technology impact in general, adds to the general feeling that children are being exposed at too young an age to dogma that they are not yet equipped to process. One of the more popular platforms with children under 11, YouTube, does more than entertain that age group. About 46\% of parents reported that their child was exposed to videos that were age inappropriate for them. (Auxier et al., 2020) In the attempt to shield the younger generation from these ills, surveyed parents across demographics consider it harder to raise children in today's age of technology. Limited screen time seems to be one of the bigger challenges in controlling a child's environment as percent of time per day devoted to technology continues to rise in the younger generation. The technology struggle, however, isn't limited to children, as 68\% of parents also admit to being distracted by their devices when they are spending time with their children.
+
+The combination of an always on, always connected, mentality along with the disassociation with physical groups only worsens the impact of the disturbing trend in cyber bulling among the US population. While all types of bullying have been prevalent in our past, that same affliction to force ones will on another through feelings of jealousy, fear, distrust, and the overall need dominate through mental or verbal abuse, has been magnified through the lens of a connected world. What once was pain that could be hidden is now blasted to the masses and documented for posterity, taunting the prey and impeding recovery from the victimization. And the attacks are escalating. Severe forms of harassment, physical threats, sexual harassment, and stalking, only made up 15\% of incidents reported in 2014 and has now grown to 25\% of today's cyber bullying incidents. (Auxier et al., 2020)
+
+Due to the reverse impact socioeconomic standing has on internet and device availability, it is believed that the more affluent social media users will be victimized to a greater extend by Cyber Bullies than those from lesser household means. The following data is presented as a review of how a family's income could possibly increase chances of falling victim to personal cyber-attacks through social media.
+
+\hypertarget{data-analysis}{%
+\subsection{Data analysis}\label{data-analysis}}
+
+For this effort I will be using a data set derived from the US Census Bureau where respondents were asked about online harassment, stalking, or cyber-bullying for any member of their household. Data was collected from the November 2019 Current Population Survey, Computer, and Internet Use Supplement ({``Current Population Survey, November 2019 ... - Census.gov,''} 2019).
+
+\hypertarget{cyber-bullying-experienced-in-the-us-by-household-income-levels.}{%
+\subsection{Cyber Bullying experienced in the US by Household Income Levels.}\label{cyber-bullying-experienced-in-the-us-by-household-income-levels.}}
+
+\includegraphics{CyberBully_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{verbatim}
+##     FamilyIncome  FamilyIncomeRange CyberBulliedAnswer     n
+##  1:            1   LESS THAN $5,000                Yes  1661
+##  2:            2     5,000 TO 7,499                Yes   886
+##  3:            3     7,500 TO 9,999                Yes  1141
+##  4:            4   10,000 TO 12,499                Yes  1710
+##  5:            5   12,500 TO 14,999                Yes  1542
+##  6:            6   15,000 TO 19,999                Yes  2540
+##  7:            7   20,000 TO 24,999                Yes  3590
+##  8:            8   25,000 TO 29,999                Yes  3895
+##  9:            9   30,000 TO 34,999                Yes  4976
+## 10:           10   35,000 TO 39,999                Yes  4866
+## 11:           11   40,000 TO 49,999                Yes  7685
+## 12:           12   50,000 TO 59,999                Yes  8134
+## 13:           13   60,000 TO 74,999                Yes 10683
+## 14:           14   75,000 TO 99,999                Yes 14116
+## 15:           15 100,000 TO 149,999                Yes 16212
+## 16:           16    150,000 OR MORE                Yes 15824
+\end{verbatim}
+
+\hypertarget{conditional-mean-of-dependent-variables}{%
+\subsection{Conditional mean of dependent variables:}\label{conditional-mean-of-dependent-variables}}
+
+\begin{verbatim}
+##   % Cyber Bullied
+## 1        1.966469
+\end{verbatim}
+
+\begin{verbatim}
+## objIndependentVariable1:  75,000 TO 99,999
+## [1] 1.970955
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 10,000 TO 12,499
+## [1] 1.95614
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 100,000 TO 149,999
+## [1] 1.968048
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 12,500 TO 14,999
+## [1] 1.954604
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 15,000 TO 19,999
+## [1] 1.961024
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 150,000 OR MORE
+## [1] 1.964548
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 20,000 TO 24,999
+## [1] 1.977437
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 25,000 TO 29,999
+## [1] 1.968678
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 30,000 TO 34,999
+## [1] 1.968248
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 35,000 TO 39,999
+## [1] 1.959926
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 40,000 TO 49,999
+## [1] 1.967729
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 5,000 TO 7,499
+## [1] 1.974041
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 50,000 TO 59,999
+## [1] 1.957094
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 60,000 TO 74,999
+## [1] 1.971824
+## ------------------------------------------------------------ 
+## objIndependentVariable1: 7,500 TO 9,999
+## [1] 1.95092
+## ------------------------------------------------------------ 
+## objIndependentVariable1: LESS THAN $5,000
+## [1] 1.958459
+\end{verbatim}
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:unnamed-chunk-3}Mean Experiened Cyber Bullying (with standard errors)}
+
+\begin{tabular}{llll}
+\toprule
+Cyber Bullied & \multicolumn{1}{c}{Family Income} & \multicolumn{1}{c}{*M*} & \multicolumn{1}{c}{*SE*}\\
+\midrule
+1.00 & 1.00 & 1.00 & 0.00\\
+1.00 & 2.00 & 1.00 & 0.00\\
+1.00 & 3.00 & 1.00 & 0.00\\
+1.00 & 4.00 & 1.00 & 0.00\\
+1.00 & 5.00 & 1.00 & 0.00\\
+1.00 & 6.00 & 1.00 & 0.00\\
+1.00 & 7.00 & 1.00 & 0.00\\
+1.00 & 8.00 & 1.00 & 0.00\\
+1.00 & 9.00 & 1.00 & 0.00\\
+1.00 & 10.00 & 1.00 & 0.00\\
+1.00 & 11.00 & 1.00 & 0.00\\
+1.00 & 12.00 & 1.00 & 0.00\\
+1.00 & 13.00 & 1.00 & 0.00\\
+1.00 & 14.00 & 1.00 & 0.00\\
+1.00 & 15.00 & 1.00 & 0.00\\
+1.00 & 16.00 & 1.00 & 0.00\\
+2.00 & 1.00 & 2.00 & 0.00\\
+2.00 & 2.00 & 2.00 & 0.00\\
+2.00 & 3.00 & 2.00 & 0.00\\
+2.00 & 4.00 & 2.00 & 0.00\\
+2.00 & 5.00 & 2.00 & 0.00\\
+2.00 & 6.00 & 2.00 & 0.00\\
+2.00 & 7.00 & 2.00 & 0.00\\
+2.00 & 8.00 & 2.00 & 0.00\\
+2.00 & 9.00 & 2.00 & 0.00\\
+2.00 & 10.00 & 2.00 & 0.00\\
+2.00 & 11.00 & 2.00 & 0.00\\
+2.00 & 12.00 & 2.00 & 0.00\\
+2.00 & 13.00 & 2.00 & 0.00\\
+2.00 & 14.00 & 2.00 & 0.00\\
+2.00 & 15.00 & 2.00 & 0.00\\
+2.00 & 16.00 & 2.00 & 0.00\\
+\bottomrule
+\end{tabular}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+\hypertarget{bivariate-graphics-comparing-dependent-variables-with-independent-variables}{%
+\subsection{Bivariate graphics comparing dependent variables with independent variables:}\label{bivariate-graphics-comparing-dependent-variables-with-independent-variables}}
+
+\includegraphics{CyberBully_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\includegraphics{CyberBully_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\includegraphics{CyberBully_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\hypertarget{next-steps}{%
+\section{Next Steps}\label{next-steps}}
+
+The next steps toward identifying possible leading indicators of targets to Cyber Bullying will include extending the temporal data set with a second census survey and analyzing any changes in reported Cyber Bullying cases using data science tools available in R, a validation of the predictive model, and a summary of the findings.
+
+\newpage
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-auxier_anderson_perrin_turner_2020}{}}%
+Auxier, B., Anderson, M., Perrin, A., \& Turner, E. (2020). Parenting children in the age of screens. Pew Research Center. Retrieved from \url{https://www.pewresearch.org/internet/2020/07/28/parenting-children-in-the-age-of-screens/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-2019_cps_computer_and_internet_use_2019}{}}%
+Current population survey, november 2019 ... - census.gov. (2019). United States Census Bureau. Retrieved from \url{https://www2.census.gov/programs-surveys/cps/techdocs/cpsnov19.pdf}
+
+\leavevmode\vadjust pre{\hypertarget{ref-national_crime_prevention_council_2022}{}}%
+Cyberbullying research brief - archive.ncpc.org. (2022). Retrieved from \url{http://archive.ncpc.org/resources/files/pdf/bullying/Cyberbullying\%20research\%20brief.pdf}
+
+\leavevmode\vadjust pre{\hypertarget{ref-security_2022}{}}%
+Cyberbullying: Twenty crucial statistics for 2022. (2022). Security.org. Retrieved from \url{https://www.security.org/resources/cyberbullying-facts-statistics/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-e;_2020}{}}%
+E;, L.-M. E.-C. E.-Z. M.-S. (2020). Socioeconomic effects in cyberbullying: Global research trends in the educational context. U.S. National Library of Medicine. Retrieved from \url{https://pubmed.ncbi.nlm.nih.gov/32570762/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-moore_vitale_stawinoga_2018}{}}%
+Moore, R., Vitale, D., \& Stawinoga, N. (2018). The digital divide and educational equity. Retrieved from \url{https://www.act.org/content/dam/act/unsecured/documents/R1698-digital-divide-2018-08.pdf?ref=hackernoon.com}
+
+\leavevmode\vadjust pre{\hypertarget{ref-statista_2022}{}}%
+Topic: Social media usage in the united states. (2022). Statista Research Department. Retrieved from \url{https://www.statista.com/topics/3196/social-media-usage-in-the-united-states/\#topicHeader__wrapper}
+
+\end{CSLReferences}
+
+
+\end{document}
