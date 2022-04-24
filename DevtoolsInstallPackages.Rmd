@@ -1,0 +1,38 @@
+---
+title: "DevtoolsInstallPackages"
+author: "Bridger M. Moreland"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# This package install script was modified by @timathomas, adapted from the ipak function created by @stevenworthington https://gist.github.com/stevenworthington/3178163
+
+# Install Package Function via Github Method to Avoid Binary Errors
+ipak_gh <- function(pkg){
+    new.pkg <- pkg[!(sub('.*/', '', pkg) %in% installed.packages()[, "Package"])]
+    if (length(new.pkg)) 
+        remotes::install_github(new.pkg, dependencies = TRUE)
+    sapply(sub('.*/', '', pkg), require, character.only = TRUE)
+
+}
+
+# Setup package list
+dev.packages <- c("r-lib/devtools",
+                  "tidyverse/tidyverse",
+                  "walkerke/tigris",
+                  "r-spatial/sf",
+                  "hrecht/censusapi",
+                  "r-lib/httr",
+                  "thomasp85/ggforce",
+                  "yihui/tinytex",
+                  "crsh/papaja",
+                  "crsh/citr"
+              )
+
+# Install Packages
+ipak_gh(dev.packages)
+
+```

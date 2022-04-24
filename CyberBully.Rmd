@@ -59,29 +59,57 @@ The rise of social media, and the technology impact in general, adds to the gene
   
   For this effort I will be using a data set derived from the US Census Bureau where respondents were asked about online harassment, stalking, or cyber-bullying for any member of their household. Data was collected from the November 2019 Current Population Survey, Computer, and Internet Use Supplement [@2019_cps_computer_and_internet_use_2019].
   
-```{r setup, include=FALSE, echo=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r EnvironmentSetup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
-#Environment Setup
+## This package install script, as modified by @timathomas, was adapted from the ipak function created by @stevenworthington https://gist.github.com/stevenworthington/3178163
 
-install.packages(c("tidyverse", "tidycensus", "tigris", "sf", "censusapi", "curl", "httr", "dplyr", "forcats", "ggplot2", "ggforce", "readr", "reshape2", "devtools", "papaja", "citr"))
-install.packages("ggforce")
+# Install Package Function via Github Method to Avoid Binary Versioning Errors
+ipak_gh <- function(pkg){
+    new.pkg <- pkg[!(sub('.*/', '', pkg) %in% installed.packages()[, "Package"])]
+    if (length(new.pkg)) 
+        remotes::install_github(new.pkg, dependencies = TRUE)
+    sapply(sub('.*/', '', pkg), require, character.only = TRUE)
 
-PayloadPackages <- rlang::quos(tidyverse, tidycensus, tigris, sf, censusapi, curl, httr, dplyr, forcats, ggplot2, ggforce, readr, reshape2, devtools, papaja, citr)
+}
+
+# Setup package list
+dev.packages <- c("r-lib/devtools",
+                  "tidyverse/tidyverse",
+                  "walkerke/tigris",
+                  "r-spatial/sf",
+                  "hrecht/censusapi",
+                  "thomasp85/ggforce",
+                  "yihui/tinytex",
+                  "crsh/papaja",
+                  "crsh/citr"
+              )
+
+# Install Packages
+ipak_gh(dev.packages)
+
+## Load packages
+#tinytex::install_tinytex()
+PayloadPackages <- rlang::quos(devtools, tidyverse, tigris, sf, censusapi, ggforce, tinytex, papaja, citr)
 
 invisible(lapply(lapply(PayloadPackages, rlang::quo_name),
   library,
   character.only = TRUE
 ))
 
+options(tigris_use_cache = TRUE)
+```
 
-# Add census API key to .Renviron
-Sys.setenv(CENSUS_KEY="68960b90025550aad3ec8b60d4918b43cbd44705")
+
+```{r SetCensusAPIkey, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+# Add census API key to .Renviron, request from https://api.census.gov/data/key_signup.html
+Sys.setenv(CENSUS_KEY="MY_CENSUS_KEY")
 # Reload .Renviron
 readRenviron("~/.Renviron")
 # Check to see that the expected key is output in your R console
 Sys.getenv("CENSUS_KEY")
-
 
 ```
 
@@ -106,25 +134,17 @@ dfCPS2015ComputerSupplement <- getCensus(
 
 dfCPSComputerSupplement <- bind_rows(dfCPS2019ComputerSupplement, dfCPS2017ComputerSupplement, dfCPS2015ComputerSupplement)
 
-rm(dfCPS2017ComputerSupplement)
-rm(dfCPS2017ComputerSupplement)
-rm(dfCPS2015ComputerSupplement)
+# rm(dfCPS2017ComputerSupplement)
+# rm(dfCPS2017ComputerSupplement)
+# rm(dfCPS2015ComputerSupplement)
 
-
-
-
-dfCPSSubset <- dfCPSSupplemental %>%
-  select(HRHHID, HRYEAR4, HETENURE, HEHOUSUT, HRNUMHOU, GEREG, GEDIV, PESEX, PEEDUCA, PTDTRACE, PRPERTYP, PEMJOT, PRMJIND1, PENLFACT, PRNLFSCH, PESCHLVL, HECBULLY, HEFAMINC)
-
-
-dfCPSSubset <- dfCPSSubset %>%
+dfCPSComputerSupplement <- dfCPSComputerSupplement %>%
   rename(HouseholdID = HRHHID,
          InterviewYear = HRYEAR4,
          OwnRentHousing = HETENURE,
          HousingType = HEHOUSUT,
          HouseholdSize = HRNUMHOU,
          GeographicRegion = GEREG,
-         GeographicDivision = GEDIV,
          Gender = PESEX,
          EducationLevel = PEEDUCA,
          Race = PTDTRACE,
