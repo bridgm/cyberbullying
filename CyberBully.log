@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.28)  14 APR 2022 04:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.24)  25 APR 2022 15:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **CyberBully.tex
 (./CyberBully.tex
 LaTeX2e <2021-11-15> patch level 1
-L3 programming layer <2022-02-24> (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/apa6/apa6.cls
+L3 programming layer <2022-04-20> (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/apa6/apa6.cls
 Document Class: apa6 2020/01/13 v2.34 APA formatting (6th edition)
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
@@ -376,30 +376,45 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
 )
 \Hy@SectionHShift=\skip74
+) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2022/04/12 4.2 verbatim text (tvz,hv)
+\FV@CodeLineNo=\count297
+\FV@InFile=\read2
+\FV@TabBox=\box54
+\c@FancyVerbLine=\count298
+\FV@StepNumber=\count299
+\FV@OutFile=\write5
+) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip75
+\fb@frw=\dimen183
+\fb@frh=\dimen184
+\FrameRule=\dimen185
+\FrameSep=\dimen186
 )
-\cslhangindent=\skip75
-\csllabelwidth=\skip76
-\cslentryspacingunit=\skip77
+\cslhangindent=\skip76
+\csllabelwidth=\skip77
+\cslentryspacingunit=\skip78
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count297
-\calc@Bcount=\count298
-\calc@Adimen=\dimen183
-\calc@Bdimen=\dimen184
-\calc@Askip=\skip78
-\calc@Bskip=\skip79
+\calc@Acount=\count300
+\calc@Bcount=\count301
+\calc@Adimen=\dimen187
+\calc@Bdimen=\dimen188
+\calc@Askip=\skip79
+\calc@Bskip=\skip80
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count299
-\calc@Cskip=\skip80
+\calc@Ccount=\count302
+\calc@Cskip=\skip81
 ) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2022/02/26 3.73 The Babel package
-\babel@savecnt=\count300
-\U@D=\dimen185
+\babel@savecnt=\count303
+\U@D=\dimen189
 \l@unhyphenated=\language3
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/txtbabel.def)
-\bbl@readstream=\read2
-\bbl@dirlevel=\count301
+\bbl@readstream=\read3
+\bbl@dirlevel=\count304
 Package babel Info: You haven't specified a language. I'll use 'nil'
 (babel)             as the main language. Reported on input line 4305.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/nil.ldf
@@ -409,9 +424,9 @@ Language: nil 2022/02/26 3.73 Nil language
 \everypar=\toks25
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/locale/en/babel-english.tex)
 Package babel Info: Importing data for english
-(babel)             from babel-en.ini. Reported on input line 100.
+(babel)             from babel-en.ini. Reported on input line 140.
 Package babel Info: Hyphen rules for 'english' set to \l@english
-(babel)             (\language0). Reported on input line 100.
+(babel)             (\language0). Reported on input line 140.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/was/upgreek.sty
 Package: upgreek 2003/02/12 v2.0 (WaS)
 Package upgreek Info: Using Euler Roman for upright Greek on input line 31.
@@ -420,48 +435,48 @@ LaTeX Font Info:    Overwriting symbol font `ugrf@m' in version `bold'
 (Font)                  U/eur/m/n --> U/eur/b/n on input line 38.
 ) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
-\LTleft=\skip81
-\LTright=\skip82
-\LTpre=\skip83
-\LTpost=\skip84
-\LTchunksize=\count302
-\LTcapwidth=\dimen186
-\LT@head=\box54
-\LT@firsthead=\box55
-\LT@foot=\box56
-\LT@lastfoot=\box57
-\LT@gbox=\box58
-\LT@cols=\count303
-\LT@rows=\count304
-\c@LT@tables=\count305
-\c@LT@chunks=\count306
+\LTleft=\skip82
+\LTright=\skip83
+\LTpre=\skip84
+\LTpost=\skip85
+\LTchunksize=\count305
+\LTcapwidth=\dimen190
+\LT@head=\box55
+\LT@firsthead=\box56
+\LT@foot=\box57
+\LT@lastfoot=\box58
+\LT@gbox=\box59
+\LT@cols=\count306
+\LT@rows=\count307
+\c@LT@tables=\count308
+\c@LT@chunks=\count309
 \LT@p@ftn=\toks26
 ) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 ) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
-\multirow@colwidth=\skip85
-\multirow@cntb=\count307
-\multirow@dima=\skip86
-\bigstrutjot=\dimen187
+\multirow@colwidth=\skip86
+\multirow@cntb=\count310
+\multirow@dima=\skip87
+\bigstrutjot=\dimen191
 ) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen188
-\ar@mcellbox=\box59
-\extrarowheight=\dimen189
+\col@sep=\dimen192
+\ar@mcellbox=\box60
+\extrarowheight=\dimen193
 \NC@list=\toks27
-\extratabsurround=\skip87
-\backup@length=\skip88
-\ar@cellbox=\box60
+\extratabsurround=\skip88
+\backup@length=\skip89
+\ar@cellbox=\box61
 )
-\TX@col@width=\dimen190
-\TX@old@table=\dimen191
-\TX@old@col=\dimen192
-\TX@target=\dimen193
-\TX@delta=\dimen194
-\TX@cols=\count308
+\TX@col@width=\dimen194
+\TX@old@table=\dimen195
+\TX@old@col=\dimen196
+\TX@target=\dimen197
+\TX@delta=\dimen198
+\TX@cols=\count311
 \TX@ftn=\toks28
 ) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex.sty
 Package: threeparttablex 2013/07/23 v0.3 by daleif
@@ -470,27 +485,27 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\TPTL@width=\skip89
+\TPTL@width=\skip90
 )
-\longtablewidth=\skip90
+\longtablewidth=\skip91
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xpatch/xpatch.sty (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2022-02-24 L3 programming layer (loader) 
+Package: expl3 2022-04-20 L3 programming layer (loader) 
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count309
-\l__pdf_internal_box=\box61
+File: l3backend-pdftex.def 2022-04-20 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count312
+\l__pdf_internal_box=\box62
 ))
 Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
 Package: xparse 2022-01-12 L3 Experimental document command parser
 )) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/csquotes/csquotes.sty
 Package: csquotes 2021-02-22 v5.2l context-sensitive quotations (JAW)
-\csq@reset=\count310
-\csq@gtype=\count311
-\csq@glevel=\count312
-\csq@qlevel=\count313
-\csq@maxlvl=\count314
-\csq@tshold=\count315
+\csq@reset=\count313
+\csq@gtype=\count314
+\csq@glevel=\count315
+\csq@qlevel=\count316
+\csq@maxlvl=\count317
+\csq@tshold=\count318
 \csq@ltx@everypar=\toks29
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/csquotes/csquotes.def
 File: csquotes.def 2021-02-22 v5.2l csquotes generic definitions (JAW)
@@ -511,24 +526,24 @@ LaTeX Warning: Unused global option(s):
 (./CyberBully.aux)
 \openout1 = `CyberBully.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 189.
-LaTeX Font Info:    ... okay on input line 189.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 189.
-LaTeX Font Info:    ... okay on input line 189.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 189.
-LaTeX Font Info:    ... okay on input line 189.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 189.
-LaTeX Font Info:    ... okay on input line 189.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 189.
-LaTeX Font Info:    ... okay on input line 189.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 189.
-LaTeX Font Info:    ... okay on input line 189.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 189.
-LaTeX Font Info:    ... okay on input line 189.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 189.
-LaTeX Font Info:    ... okay on input line 189.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 189.
-LaTeX Font Info:    ... okay on input line 189.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 229.
+LaTeX Font Info:    ... okay on input line 229.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 229.
+LaTeX Font Info:    ... okay on input line 229.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 229.
+LaTeX Font Info:    ... okay on input line 229.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 229.
+LaTeX Font Info:    ... okay on input line 229.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 229.
+LaTeX Font Info:    ... okay on input line 229.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 229.
+LaTeX Font Info:    ... okay on input line 229.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 229.
+LaTeX Font Info:    ... okay on input line 229.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 229.
+LaTeX Font Info:    ... okay on input line 229.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 229.
+LaTeX Font Info:    ... okay on input line 229.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -578,7 +593,7 @@ Package caption Info: longtable package is loaded.
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 189.
+Package hyperref Info: Link coloring OFF on input line 229.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
@@ -586,45 +601,45 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count316
+\c@section@level=\count319
 )
-LaTeX Info: Redefining \ref on input line 189.
-LaTeX Info: Redefining \pageref on input line 189.
-LaTeX Info: Redefining \nameref on input line 189.
+LaTeX Info: Redefining \ref on input line 229.
+LaTeX Info: Redefining \pageref on input line 229.
+LaTeX Info: Redefining \nameref on input line 229.
 (./CyberBully.out) (./CyberBully.out)
-\@outlinefile=\write5
-\openout5 = `CyberBully.out'.
+\@outlinefile=\write6
+\openout6 = `CyberBully.out'.
 
 
 Class apa6 Warning: Abstract not defined.
 
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 191.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 231.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 191.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 231.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 191.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 231.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 191.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 231.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 191.
+(Font)              <12> on input line 231.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 191.
+(Font)              <8> on input line 231.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 191.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 191.
+(Font)              <6> on input line 231.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 231.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 191.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 231.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1{c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
@@ -633,84 +648,100 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 Underfull \vbox (badness 1838) has occurred while \output is active []
 
 [3] [4]
-<CyberBully_files/figure-latex/unnamed-chunk-2-1.pdf, id=60, 469.755pt x 325.215pt>
-File: CyberBully_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (type pdf)
-<use CyberBully_files/figure-latex/unnamed-chunk-2-1.pdf>
-Package pdftex.def Info: CyberBully_files/figure-latex/unnamed-chunk-2-1.pdf  used on input line 219.
+<CyberBully_files/figure-latex/SummarizeCyberbullyResponses-1.pdf, id=72, 469.755pt x 325.215pt>
+File: CyberBully_files/figure-latex/SummarizeCyberbullyResponses-1.pdf Graphic file (type pdf)
+<use CyberBully_files/figure-latex/SummarizeCyberbullyResponses-1.pdf>
+Package pdftex.def Info: CyberBully_files/figure-latex/SummarizeCyberbullyResponses-1.pdf  used on input line 259.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (28.90639pt too wide) in paragraph at lines 219--220
+Overfull \hbox (28.90639pt too wide) in paragraph at lines 259--260
 [][]  
  []
 
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 221.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 265.
 (c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [5 <./CyberBully_files/figure-latex/unnamed-chunk-2-1.pdf>] [6]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[7]
-\openout3 = `CyberBully.ttt'.
-
-(CyberBully.ttt)
-<CyberBully_files/figure-latex/unnamed-chunk-4-1.pdf, id=85, 469.755pt x 325.215pt>
-File: CyberBully_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
-<use CyberBully_files/figure-latex/unnamed-chunk-4-1.pdf>
-Package pdftex.def Info: CyberBully_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 353.
+) [5 <./CyberBully_files/figure-latex/SummarizeCyberbullyResponses-1.pdf>]
+<CyberBully_files/figure-latex/CyberbullyByIncome-1.pdf, id=85, 469.755pt x 325.215pt>
+File: CyberBully_files/figure-latex/CyberbullyByIncome-1.pdf Graphic file (type pdf)
+<use CyberBully_files/figure-latex/CyberbullyByIncome-1.pdf>
+Package pdftex.def Info: CyberBully_files/figure-latex/CyberbullyByIncome-1.pdf  used on input line 300.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (28.90639pt too wide) in paragraph at lines 353--354
-[][]  
- []
-
-<CyberBully_files/figure-latex/unnamed-chunk-5-1.pdf, id=86, 469.755pt x 325.215pt>
-File: CyberBully_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
-<use CyberBully_files/figure-latex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: CyberBully_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 355.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (28.90639pt too wide) in paragraph at lines 355--356
-[][]  
+Overfull \hbox (28.90639pt too wide) in paragraph at lines 300--302
+[][] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[8 <./CyberBully_files/figure-latex/unnamed-chunk-4-1.pdf>]
-<CyberBully_files/figure-latex/unnamed-chunk-6-1.pdf, id=100, 469.755pt x 325.215pt>
-File: CyberBully_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (type pdf)
-<use CyberBully_files/figure-latex/unnamed-chunk-6-1.pdf>
-Package pdftex.def Info: CyberBully_files/figure-latex/unnamed-chunk-6-1.pdf  used on input line 357.
+[6]
+<CyberBully_files/figure-latex/unnamed-chunk-1-1.pdf, id=91, 469.755pt x 325.215pt>
+File: CyberBully_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
+<use CyberBully_files/figure-latex/unnamed-chunk-1-1.pdf>
+Package pdftex.def Info: CyberBully_files/figure-latex/unnamed-chunk-1-1.pdf  used on input line 303.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<CyberBully_files/figure-latex/unnamed-chunk-1-2.pdf, id=92, 469.755pt x 325.215pt>
+File: CyberBully_files/figure-latex/unnamed-chunk-1-2.pdf Graphic file (type pdf)
+<use CyberBully_files/figure-latex/unnamed-chunk-1-2.pdf>
+Package pdftex.def Info: CyberBully_files/figure-latex/unnamed-chunk-1-2.pdf  used on input line 303.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (28.90639pt too wide) in paragraph at lines 357--358
+Overfull \hbox (28.90639pt too wide) in paragraph at lines 303--304
+[][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[7 <./CyberBully_files/figure-latex/CyberbullyByIncome-1.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[8 <./CyberBully_files/figure-latex/unnamed-chunk-1-1.pdf>]
+<CyberBully_files/figure-latex/CyberbullyByState-1.pdf, id=116, 469.755pt x 325.215pt>
+File: CyberBully_files/figure-latex/CyberbullyByState-1.pdf Graphic file (type pdf)
+<use CyberBully_files/figure-latex/CyberbullyByState-1.pdf>
+Package pdftex.def Info: CyberBully_files/figure-latex/CyberbullyByState-1.pdf  used on input line 308.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (28.90639pt too wide) in paragraph at lines 308--309
 [][]  
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[9 <./CyberBully_files/figure-latex/unnamed-chunk-5-1.pdf>] [10 <./CyberBully_files/figure-latex/unnamed-chunk-6-1.pdf>] AED endfloat: Processing end Figures and Tables [11] (./CyberBully.ttt
+[9 <./CyberBully_files/figure-latex/unnamed-chunk-1-2.pdf>]
+<CyberBully_files/figure-latex/DemographicIndicators-1.pdf, id=128, 469.755pt x 325.215pt>
+File: CyberBully_files/figure-latex/DemographicIndicators-1.pdf Graphic file (type pdf)
+<use CyberBully_files/figure-latex/DemographicIndicators-1.pdf>
+Package pdftex.def Info: CyberBully_files/figure-latex/DemographicIndicators-1.pdf  used on input line 313.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-LaTeX Warning: Float too large for page by 241.26454pt on input line 52.
+Overfull \hbox (28.90639pt too wide) in paragraph at lines 313--314
+[][]  
+ []
 
-) [12] (./CyberBully.aux)
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[10 <./CyberBully_files/figure-latex/CyberbullyByState-1.pdf>] [11 <./CyberBully_files/figure-latex/DemographicIndicators-1.pdf>] AED endfloat: Processing end Figures and Tables [12] (./CyberBully.aux)
 Package rerunfilecheck Info: File `CyberBully.out' has not changed.
-(rerunfilecheck)             Checksum: 586DDF7A0AEA01392D5944DFC359559C;1699.
+(rerunfilecheck)             Checksum: EDD9D17C8F58BF9EF962CE299596FF92;2379.
  ) 
 Here is how much of TeX's memory you used:
- 15634 strings out of 480236
- 260137 string characters out of 5893968
- 564335 words of memory out of 5000000
- 33262 multiletter control sequences out of 15000+600000
- 510025 words of font info for 63 fonts, out of 8000000 for 9000
+ 16155 strings out of 480193
+ 269749 string characters out of 5891069
+ 569171 words of memory out of 5000000
+ 33809 multiletter control sequences out of 15000+600000
+ 503094 words of font info for 62 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 70i,12n,77p,2249b,630s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}<c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on CyberBully.pdf (12 pages, 6524825 bytes).
+ 70i,11n,77p,2249b,436s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}<c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb><c:/Users/BridgerMoreland/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
+Output written on CyberBully.pdf (12 pages, 738786 bytes).
 PDF statistics:
- 194 PDF objects out of 1000 (max. 8388607)
- 160 compressed objects within 2 object streams
- 40 named destinations out of 1000 (max. 500000)
- 85 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 218 PDF objects out of 1000 (max. 8388607)
+ 177 compressed objects within 2 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 119 words of extra memory for PDF output out of 10000 (max. 10000000)
 

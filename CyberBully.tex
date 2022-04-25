@@ -36,13 +36,53 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={Progress Report 3},
+  pdftitle={Final Report},
   pdfauthor={Bridger Moreland1},
   pdflang={en-EN},
   pdfkeywords={Cyber Bullying},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -177,12 +217,12 @@
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 
-\title{Progress Report 3}
+\title{Final Report}
 \author{Bridger Moreland\textsuperscript{1}}
 \date{4/13/2022}
 
 
-\shorttitle{Report\_3}
+\shorttitle{Final}
 
 \affiliation{\vspace{0.5cm}\textsuperscript{1} Vanderbilt University, Peabody College}
 
@@ -209,152 +249,74 @@ The combination of an always on, always connected, mentality along with the disa
 Due to the reverse impact socioeconomic standing has on internet and device availability, it is believed that the more affluent social media users will be victimized to a greater extend by Cyber Bullies than those from lesser household means. The following data is presented as a review of how a family's income could possibly increase chances of falling victim to personal cyber-attacks through social media.
 
 \hypertarget{data-analysis}{%
-\subsection{Data analysis}\label{data-analysis}}
+\section{Data analysis}\label{data-analysis}}
 
-For this effort I will be using a data set derived from the US Census Bureau where respondents were asked about online harassment, stalking, or cyber-bullying for any member of their household. Data was collected from the November 2019 Current Population Survey, Computer, and Internet Use Supplement ({``Current Population Survey, November 2019 ... - Census.gov,''} 2019).
+For this effort I will be using a data set derived from the US Census Bureau where respondents were asked about online harassment, stalking, or cyber-bullying for any member of their household. Only three of their most current supplemental surveys address these specific data elements. Data was collected from the July, 2015, November, 2017, and November 2019 versions of the Current Population Survey, Computer, and Internet Use Supplement ({``Current Population Survey, November 2019 ... - Census.gov,''} 2019).
 
-\hypertarget{cyber-bullying-experienced-in-the-us-by-household-income-levels.}{%
-\subsection{Cyber Bullying experienced in the US by Household Income Levels.}\label{cyber-bullying-experienced-in-the-us-by-household-income-levels.}}
+\hypertarget{census-dataset-summary}{%
+\subsection{Census Dataset Summary}\label{census-dataset-summary}}
 
-\includegraphics{CyberBully_files/figure-latex/unnamed-chunk-2-1.pdf}
+\includegraphics{CyberBully_files/figure-latex/SummarizeCyberbullyResponses-1.pdf}
 
-\begin{verbatim}
-##     FamilyIncome  FamilyIncomeRange CyberBulliedAnswer     n
-##  1:            1   LESS THAN $5,000                Yes  1661
-##  2:            2     5,000 TO 7,499                Yes   886
-##  3:            3     7,500 TO 9,999                Yes  1141
-##  4:            4   10,000 TO 12,499                Yes  1710
-##  5:            5   12,500 TO 14,999                Yes  1542
-##  6:            6   15,000 TO 19,999                Yes  2540
-##  7:            7   20,000 TO 24,999                Yes  3590
-##  8:            8   25,000 TO 29,999                Yes  3895
-##  9:            9   30,000 TO 34,999                Yes  4976
-## 10:           10   35,000 TO 39,999                Yes  4866
-## 11:           11   40,000 TO 49,999                Yes  7685
-## 12:           12   50,000 TO 59,999                Yes  8134
-## 13:           13   60,000 TO 74,999                Yes 10683
-## 14:           14   75,000 TO 99,999                Yes 14116
-## 15:           15 100,000 TO 149,999                Yes 16212
-## 16:           16    150,000 OR MORE                Yes 15824
-\end{verbatim}
+\hypertarget{cyberbullying-experienced-in-the-us-by-household-income-levels.}{%
+\subsection{Cyberbullying Experienced in the US by Household Income Levels.}\label{cyberbullying-experienced-in-the-us-by-household-income-levels.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{echo =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{warning =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{message =} \ConstantTok{FALSE}\NormalTok{)}
+
+\NormalTok{Income\_Bullied }\OtherTok{\textless{}{-}}\NormalTok{ dfCPSComputerSupplement }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(FamilyIncome, FamilyIncomeRange, CyberBulliedAnswer, InterviewYear)}
+\NormalTok{Income\_Bullied }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(Income\_Bullied, CyberBulliedAnswer}\SpecialCharTok{==}\StringTok{"Yes"}\NormalTok{)}
+\NormalTok{Income\_Bullied}\SpecialCharTok{$}\NormalTok{Sqrt.n }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(Income\_Bullied}\SpecialCharTok{$}\NormalTok{n)}
+\CommentTok{\# Income\_Bullied[order(as.numeric(Income\_Bullied$FamilyIncome)),]}
+
+\CommentTok{\# Build Histogram}
+\NormalTok{Income\_Bullied.heatmap }\OtherTok{\textless{}{-}}\NormalTok{ Income\_Bullied }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ Income\_Bullied,}
+         \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}
+           \AttributeTok{x =}\NormalTok{ InterviewYear,}
+           \AttributeTok{y =} \FunctionTok{reorder}\NormalTok{(FamilyIncomeRange, }\FunctionTok{as.integer}\NormalTok{(FamilyIncome)),}
+           \AttributeTok{fill =}\NormalTok{ Sqrt.n}
+\NormalTok{         )) }\SpecialCharTok{+}
+  \FunctionTok{geom\_tile}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\AttributeTok{label =} \StringTok{"Reported Occurences of Cyberbullying"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\AttributeTok{label =} \StringTok{"Family Income Bracket"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\AttributeTok{label =} \StringTok{"Cyberbullying Experienced in the US by Household Income Levels"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{( }\SpecialCharTok{\textasciitilde{}}\NormalTok{ InterviewYear, }\AttributeTok{scales =} \StringTok{"free\_x"}\NormalTok{, }\AttributeTok{space =} \StringTok{"free\_x"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{axis.text.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+    \AttributeTok{axis.ticks.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+    \AttributeTok{strip.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#EEEEEE"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#EEEEEE"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_gradient}\NormalTok{(}\AttributeTok{name =} \StringTok{"Sqrt(n)"}\NormalTok{,}
+                      \AttributeTok{low =}\NormalTok{ themecolor1,}
+                      \AttributeTok{high =}\NormalTok{ themecolor2)}
+
+\NormalTok{Income\_Bullied.heatmap}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{CyberBully_files/figure-latex/CyberbullyByIncome-1.pdf}
+\#\# Cyberbullying Occurances by Gender
+
+\includegraphics{CyberBully_files/figure-latex/unnamed-chunk-1-1.pdf} \includegraphics{CyberBully_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+\hypertarget{cyber-bullying-experienced-in-the-us-by-state.}{%
+\subsection{Cyber Bullying experienced in the US by State.}\label{cyber-bullying-experienced-in-the-us-by-state.}}
+
+\includegraphics{CyberBully_files/figure-latex/CyberbullyByState-1.pdf}
+
+\hypertarget{cyberbullying-occurences-by-age}{%
+\subsection{Cyberbullying Occurences by Age}\label{cyberbullying-occurences-by-age}}
+
+\includegraphics{CyberBully_files/figure-latex/DemographicIndicators-1.pdf}
 
 \hypertarget{conditional-mean-of-dependent-variables}{%
 \subsection{Conditional mean of dependent variables:}\label{conditional-mean-of-dependent-variables}}
 
-\begin{verbatim}
-##   % Cyber Bullied
-## 1        1.966469
-\end{verbatim}
-
-\begin{verbatim}
-## objIndependentVariable1:  75,000 TO 99,999
-## [1] 1.970955
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 10,000 TO 12,499
-## [1] 1.95614
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 100,000 TO 149,999
-## [1] 1.968048
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 12,500 TO 14,999
-## [1] 1.954604
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 15,000 TO 19,999
-## [1] 1.961024
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 150,000 OR MORE
-## [1] 1.964548
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 20,000 TO 24,999
-## [1] 1.977437
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 25,000 TO 29,999
-## [1] 1.968678
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 30,000 TO 34,999
-## [1] 1.968248
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 35,000 TO 39,999
-## [1] 1.959926
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 40,000 TO 49,999
-## [1] 1.967729
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 5,000 TO 7,499
-## [1] 1.974041
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 50,000 TO 59,999
-## [1] 1.957094
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 60,000 TO 74,999
-## [1] 1.971824
-## ------------------------------------------------------------ 
-## objIndependentVariable1: 7,500 TO 9,999
-## [1] 1.95092
-## ------------------------------------------------------------ 
-## objIndependentVariable1: LESS THAN $5,000
-## [1] 1.958459
-\end{verbatim}
-
-\begin{table}[tbp]
-
-\begin{center}
-\begin{threeparttable}
-
-\caption{\label{tab:unnamed-chunk-3}Mean Experiened Cyber Bullying (with standard errors)}
-
-\begin{tabular}{llll}
-\toprule
-Cyber Bullied & \multicolumn{1}{c}{Family Income} & \multicolumn{1}{c}{*M*} & \multicolumn{1}{c}{*SE*}\\
-\midrule
-1.00 & 1.00 & 1.00 & 0.00\\
-1.00 & 2.00 & 1.00 & 0.00\\
-1.00 & 3.00 & 1.00 & 0.00\\
-1.00 & 4.00 & 1.00 & 0.00\\
-1.00 & 5.00 & 1.00 & 0.00\\
-1.00 & 6.00 & 1.00 & 0.00\\
-1.00 & 7.00 & 1.00 & 0.00\\
-1.00 & 8.00 & 1.00 & 0.00\\
-1.00 & 9.00 & 1.00 & 0.00\\
-1.00 & 10.00 & 1.00 & 0.00\\
-1.00 & 11.00 & 1.00 & 0.00\\
-1.00 & 12.00 & 1.00 & 0.00\\
-1.00 & 13.00 & 1.00 & 0.00\\
-1.00 & 14.00 & 1.00 & 0.00\\
-1.00 & 15.00 & 1.00 & 0.00\\
-1.00 & 16.00 & 1.00 & 0.00\\
-2.00 & 1.00 & 2.00 & 0.00\\
-2.00 & 2.00 & 2.00 & 0.00\\
-2.00 & 3.00 & 2.00 & 0.00\\
-2.00 & 4.00 & 2.00 & 0.00\\
-2.00 & 5.00 & 2.00 & 0.00\\
-2.00 & 6.00 & 2.00 & 0.00\\
-2.00 & 7.00 & 2.00 & 0.00\\
-2.00 & 8.00 & 2.00 & 0.00\\
-2.00 & 9.00 & 2.00 & 0.00\\
-2.00 & 10.00 & 2.00 & 0.00\\
-2.00 & 11.00 & 2.00 & 0.00\\
-2.00 & 12.00 & 2.00 & 0.00\\
-2.00 & 13.00 & 2.00 & 0.00\\
-2.00 & 14.00 & 2.00 & 0.00\\
-2.00 & 15.00 & 2.00 & 0.00\\
-2.00 & 16.00 & 2.00 & 0.00\\
-\bottomrule
-\end{tabular}
-
-\end{threeparttable}
-\end{center}
-
-\end{table}
-
 \hypertarget{bivariate-graphics-comparing-dependent-variables-with-independent-variables}{%
 \subsection{Bivariate graphics comparing dependent variables with independent variables:}\label{bivariate-graphics-comparing-dependent-variables-with-independent-variables}}
-
-\includegraphics{CyberBully_files/figure-latex/unnamed-chunk-4-1.pdf}
-
-\includegraphics{CyberBully_files/figure-latex/unnamed-chunk-5-1.pdf}
-
-\includegraphics{CyberBully_files/figure-latex/unnamed-chunk-6-1.pdf}
 
 \hypertarget{next-steps}{%
 \section{Next Steps}\label{next-steps}}
