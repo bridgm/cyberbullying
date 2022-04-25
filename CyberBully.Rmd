@@ -256,9 +256,9 @@ x = Gender_Bullied$InterviewYear
 
 # Build Histogram
 Gender_Bullied %>% 
-  ggplot(aes(n, fill = GenderIdentifier)) +
-  geom_histogram(binwidth = 5) +
-  facet_grid(cols = vars(GenderIdentifier)) +
+  ggplot(aes(n, y= stat(count), fill = GenderIdentifier)) +
+  geom_density(alpha=.5) +
+  # facet_grid(cols = vars(GenderIdentifier)) +
   scale_fill_discrete(direction = -1) +
   labs(title = "Cyberbullying Experienced in the US by Gender Identifier",
        y = "Frequency",
@@ -294,8 +294,8 @@ Gender_Bullied %>%
 
 ## Cyber Bullying experienced in the US by State.
 
-```{r CyberbullyByState, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```{r CyberbullyByState, include=TRUE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 States_Bullied <- dfCPSComputerSupplement %>%  count(StateAbbreviation, CyberBulliedAnswer)
 States_Bullied <-
@@ -397,6 +397,20 @@ dfCPSSubset |>
   summarise(mean = mean(CyberBullied), se = sd(CyberBullied) / sqrt(length(CyberBullied)), .groups = "drop") |>
   label_variables(CyberBullied = "Cyber Bullied", FamilyIncome = "Family Income", mean = "*M*", se = "*SE*") |>
   apa_table(caption = "Mean Experiened Cyber Bullying (with standard errors)")
+
+CyberBully_Means <- Income_Bullied %>%
+  group_by(FamilyIncome) %>%
+  mutate(mean_CyberBullied = mean(n, na.rm=TRUE)) %>%
+  ungroup()
+
+rmse_FamilyIncome <- CyberBully_Means %>%
+  yardstick::rmse(FamilyIncome, mean_CyberBullied)
+
+rmse_FamilyIncome %>% 
+  mutate(Measure = .metric, Estimate = .estimate) %>%
+  select(Measure, Estimate) %>%
+  kable() %>%
+  kable_styling("striped", full_width = F, latex_options = "HOLD_position")
 
 
 ```
