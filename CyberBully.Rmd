@@ -203,60 +203,83 @@ dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfFamilyIncome, by="Fa
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfYesNoAnswers, by="CyberBullied", all.x=TRUE)
 
 ```
+
 ## Cyberbullying Experienced in the US by Household Income Levels.
 
-```{r CyberbullyByState, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```{r CyberbullyByIncome, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 Income_Bullied <- dfCPSComputerSupplement %>% count(FamilyIncome, FamilyIncomeRange, CyberBulliedAnswer, InterviewYear)
 Income_Bullied <- filter(Income_Bullied, CyberBulliedAnswer=="Yes")
+Income_Bullied$Sqrt.n <- sqrt(Income_Bullied$n)
 Income_Bullied[order(as.numeric(Income_Bullied$FamilyIncome)),]
 
-# Change histogram plot line colors by groups
-Income_Bullied %>%
+# Build Histogram
+Income_Bullied.heatmap <- Income_Bullied %>%
   ggplot(data = Income_Bullied,
-         mapping = aes(x = InterviewYear,
-                       y = reorder(FamilyIncomeRange, as.integer(FamilyIncome)),
-                       fill = n)) +
+         mapping = aes(
+           x = InterviewYear,
+           y = reorder(FamilyIncomeRange, as.integer(FamilyIncome)),
+           fill = Sqrt.n
+         )) +
   geom_tile() +
   xlab(label = "Reported Occurences of Cyberbullying") +
   ylab(label = "Family Income Bracket") +
-  ggtitle(label = "Cyberbullying Experienced in the US by Household Income Levels")
+  ggtitle(label = "Cyberbullying Experienced in the US by Household Income Levels") +
+  facet_grid( ~ InterviewYear, scales = "free_x", space = "free_x") +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    plot.title = element_text(hjust = 0.5),
+    strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF")
+  ) +
+  scale_fill_gradient(name = "Sqrt(n)",
+                      low = "#DAF7A6",
+                      high = "#C70039")
 
-
+Income_Bullied.heatmap
 
 ```
 
 
-## Cyber Bullying experienced in the US by Household Income Levels.
+## Cyber Bullying experienced in the US by State.
 
-```{r, echo=FALSE}
+```{r CyberbullyByState, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
-x = dfCPSComputerSupplement2019Cyberbullied$FamilyIncomeRange
-y1 = dfCPSComputerSupplement2019Cyberbullied$CyberBullied
+States_Bullied <- dfCPSComputerSupplement %>%  count(StateAbbreviation, CyberBulliedAnswer, InterviewYear)
+States_Bullied <-
+  filter(States_Bullied,
+         CyberBulliedAnswer == "Yes" & InterviewYear == "2019")
+States_Bullied$Sqrt.n <- sqrt(States_Bullied$n)
+States <- states(cb = TRUE, class = "sf") %>%
+  filter(!as.numeric(STATEFP) %in% c(2, 15, 60, 66, 69, 72, 78)) %>% # lower 48 only
+  mutate(var = rnorm(nrow(.)))
+States <- as_tibble(States)
+States_Bullied <-
+  merge(
+    States_Bullied,
+    States,
+    by.x = c("StateAbbreviation"),
+    by.y = c("STUSPS"),
+    all.y = TRUE
+  )
+# Build US Map
+States_Bullied.heatmap <- States_Bullied %>%
+  ggplot(aes(fill = Sqrt.n, geometry = geometry)) +
+  geom_sf() +
+  ggtitle(label = "Cyberbullying Experienced in the US by State") +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    plot.title = element_text(hjust = 0.5),
+    strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF")
+  ) +
+  scale_fill_gradient(name = "Sqrt(n)",
+                      low = "#DAF7A6",
+                      high = "#C70039")
 
-ggplot(dfCPSComputerSupplement, aes(FamilyIncomeRange, after_stat(density), colour = cut)) +
-  geom_freqpoly(binwidth = 500)
-
-
-# Continuous colors
-p + scale_color_brewer(palette="Paired") + 
-  theme_classic()+theme(legend.position="top")
-
-dfCPSComputerSupplement2019Cyberbullied <- filter(dfCPSComputerSupplement, CyberBulliedAnswer=="Yes", InterviewYear=="2019") 
-
-x = dfCPSComputerSupplementCyberbullied$FamilyIncome
-y1 = dfCPSComputerSupplementCyberbullied$CyberBulliedAnswer
-
-# histogram
-ggplot(dfCPSComputerSupplementCyberbullied, aes(x=reorder(x, FamilyIncome), stat="count", color=y1)) +
-  geom_histogram(fill="blue", alpha=0.5, position="identity")+
-  labs (x = "Family Income Range",
-        title  = "Reported Cyber Bullying by Family Economic Level")
-
-
-dfCPSComputerSupplement %>% count(FamilyIncome, FamilyIncomeRange, CyberBulliedAnswer="Yes")
-
+States_Bullied.heatmap
 
 ```
 
