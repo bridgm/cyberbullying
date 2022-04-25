@@ -57,7 +57,7 @@ The rise of social media, and the technology impact in general, adds to the gene
   
 # Data analysis
   
-  For this effort I will be using a data set derived from the US Census Bureau where respondents were asked about online harassment, stalking, or cyber-bullying for any member of their household. Data was collected from the November 2019 Current Population Survey, Computer, and Internet Use Supplement [@2019_cps_computer_and_internet_use_2019].
+  For this effort I will be using a data set derived from the US Census Bureau where respondents were asked about online harassment, stalking, or cyber-bullying for any member of their household. Only three of their most current supplemental surveys address these specific data elements. Data was collected from the July, 2015, November, 2017, and November 2019 versions of the Current Population Survey, Computer, and Internet Use Supplement [@2019_cps_computer_and_internet_use_2019].
   
 ```{r EnvironmentSetup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
@@ -98,6 +98,10 @@ invisible(lapply(lapply(PayloadPackages, rlang::quo_name),
 ))
 
 options(tigris_use_cache = TRUE)
+
+# Set Them Colors
+themecolor1="#DAF7A6"
+themecolor2="#C70039"
 ```
 
 
@@ -204,6 +208,26 @@ dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfYesNoAnswers, by="Cy
 
 ```
 
+
+```{r SummarizeCyberbullyResponses, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Summarize Answers for Cyberbullied Reportings
+CyberBully_Summation<-dfCPSComputerSupplement%>%
+    group_by(CyberBulliedAnswer)%>%
+    summarize(count=n())
+
+x = CyberBully_Summation$CyberBulliedAnswer
+y = CyberBully_Summation$count
+
+total_bullied.hist<- ggplot(CyberBully_Summation, aes(x=x, y=y)) + 
+  geom_bar(stat = "identity", color=themecolor1 )
+total_bullied.hist
+
+
+```
+
+
 ## Cyberbullying Experienced in the US by Household Income Levels.
 
 ```{r CyberbullyByIncome, include=TRUE}
@@ -259,14 +283,14 @@ Gender_Bullied %>%
   ggplot(aes(n, y= stat(count), fill = GenderIdentifier)) +
   geom_density(alpha=.5) +
   # facet_grid(cols = vars(GenderIdentifier)) +
-  scale_fill_discrete(direction = -1) +
   labs(title = "Cyberbullying Experienced in the US by Gender Identifier",
        y = "Frequency",
        color="Gender Identity") +
   theme(
     panel.background = element_blank(),
-    plot.title = element_text(hjust = 0.5, size = 14)
-  )
+    plot.title = element_text(hjust = 0.5, size = 14)) +
+      scale_color_manual(values=c("#999999", "#E69F00", "#DAF7A6"))+
+    scale_fill_manual(values=c("#999999", "#E69F00", "#DAF7A6"))
 
 Gender_Bullied %>%
   ggplot(data = Gender_Bullied,
@@ -385,7 +409,7 @@ Age_Bullied %>%
   
 ```{r, echo=FALSE}
 
-objDependentVariable <- dfCPSSubset$CyberBullied
+objDependentVariable <- dfCPS$CyberBullied
 objIndependentVariable1 <- dfCPSSubset$FamilyIncomeRange
 
 summarise(dfCPSSubset, '% Cyber Bullied' = mean(objDependentVariable))
