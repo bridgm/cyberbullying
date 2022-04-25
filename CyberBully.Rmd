@@ -109,7 +109,7 @@ themecolor2="#C70039"
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 # Add census API key to .Renviron, request from https://api.census.gov/data/key_signup.html
-Sys.setenv(CENSUS_KEY="MY_CENSUS_KEY")
+Sys.setenv(CENSUS_KEY="f5d8b2f3e08318d13f7fa7f65920e2560cb2ee45")
 # Reload .Renviron
 readRenviron("~/.Renviron")
 # Check to see that the expected key is output in your R console
@@ -208,6 +208,7 @@ dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfYesNoAnswers, by="Cy
 
 ```
 
+## Census Dataset Summary
 
 ```{r SummarizeCyberbullyResponses, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -220,8 +221,21 @@ CyberBully_Summation<-dfCPSComputerSupplement%>%
 x = CyberBully_Summation$CyberBulliedAnswer
 y = CyberBully_Summation$count
 
-total_bullied.hist<- ggplot(CyberBully_Summation, aes(x=x, y=y)) + 
-  geom_bar(stat = "identity", color=themecolor1 )
+total_bullied.hist <- ggplot(CyberBully_Summation, aes(x = x, y = y)) +
+  geom_bar(stat = "identity", fill = themecolor2) +
+  geom_text(aes(label = y), vjust = -0.2, color = "black") +
+  labs(title = "Summary of All Cyberbullied Responses",
+       x = "Cyberbullied Response",
+       y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    panel.background = element_rect(themecolor1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black")
+  ) +
+   scale_y_continuous(expand = expansion(mult = c(.05, .05)), labels = scales::label_comma())
 total_bullied.hist
 
 
@@ -258,8 +272,8 @@ Income_Bullied.heatmap <- Income_Bullied %>%
     strip.background = element_rect(fill = "#EEEEEE", color = "#EEEEEE")
   ) +
   scale_fill_gradient(name = "Sqrt(n)",
-                      low = "#DAF7A6",
-                      high = "#C70039")
+                      low = themecolor1,
+                      high = themecolor2)
 
 Income_Bullied.heatmap
 
@@ -289,8 +303,8 @@ Gender_Bullied %>%
   theme(
     panel.background = element_blank(),
     plot.title = element_text(hjust = 0.5, size = 14)) +
-      scale_color_manual(values=c("#999999", "#E69F00", "#DAF7A6"))+
-    scale_fill_manual(values=c("#999999", "#E69F00", "#DAF7A6"))
+      scale_color_manual(values=c(themecolor2, "#E69F00", themecolor1))+
+    scale_fill_manual(values=c(themecolor2, "#E69F00", themecolor1))
 
 Gender_Bullied %>%
   ggplot(data = Gender_Bullied,
@@ -311,8 +325,8 @@ Gender_Bullied %>%
     strip.background = element_rect(fill = "#EEEEEE", color = "#EEEEEE")
   ) +
   scale_fill_gradient(name = "Sqrt(n)",
-                      low = "#DAF7A6",
-                      high = "#C70039")
+                      low = themecolor1,
+                      high = themecolor2)
 
 ```
 
@@ -356,8 +370,8 @@ States_Bullied.heatmap <- States_Bullied %>%
     plot.caption = element_text(hjust = 0, face = "italic")
   ) +
   scale_fill_gradient(name = "Sqrt(n)",
-                      low = "#DAF7A6",
-                      high = "#C70039")
+                      low = themecolor1,
+                      high = themecolor2)
 
 States_Bullied.heatmap
 
@@ -384,8 +398,8 @@ Age_Bullied %>%
   geom_point() +
   geom_smooth(
     method = "loess",
-    color="darkred",
-    fill="orange",
+    color=themecolor2,
+    fill=themecolor1,
     se = TRUE,
     fullrange = FALSE,
     level = 0.95,
@@ -407,34 +421,35 @@ Age_Bullied %>%
 ## Conditional mean of dependent variables:
   
   
-```{r, echo=FALSE}
+```{r CalculateMean, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
-objDependentVariable <- dfCPS$CyberBullied
-objIndependentVariable1 <- dfCPSSubset$FamilyIncomeRange
-
-summarise(dfCPSSubset, '% Cyber Bullied' = mean(objDependentVariable))
-
-by(data = objDependentVariable, INDICES = objIndependentVariable1, FUN = mean)
-
-dfCPSSubset |>
-  group_by(CyberBullied, FamilyIncome) |>
-  summarise(mean = mean(CyberBullied), se = sd(CyberBullied) / sqrt(length(CyberBullied)), .groups = "drop") |>
-  label_variables(CyberBullied = "Cyber Bullied", FamilyIncome = "Family Income", mean = "*M*", se = "*SE*") |>
-  apa_table(caption = "Mean Experiened Cyber Bullying (with standard errors)")
-
-CyberBully_Means <- Income_Bullied %>%
-  group_by(FamilyIncome) %>%
-  mutate(mean_CyberBullied = mean(n, na.rm=TRUE)) %>%
-  ungroup()
-
-rmse_FamilyIncome <- CyberBully_Means %>%
-  yardstick::rmse(FamilyIncome, mean_CyberBullied)
-
-rmse_FamilyIncome %>% 
-  mutate(Measure = .metric, Estimate = .estimate) %>%
-  select(Measure, Estimate) %>%
-  kable() %>%
-  kable_styling("striped", full_width = F, latex_options = "HOLD_position")
+# objDependentVariable <- dfCPSComputerSupplement$CyberBullied
+# objIndependentVariable1 <- dfCPSComputerSupplement$FamilyIncomeRange
+# 
+# summarise(dfCPSComputerSupplement, '% Cyber Bullied' = mean(objDependentVariable))
+# 
+# by(data = objDependentVariable, INDICES = objIndependentVariable1, FUN = mean)
+# 
+# dfCPSComputerSupplement |>
+#   group_by(CyberBullied, FamilyIncome) |>
+#   summarise(mean = mean(CyberBullied), se = sd(CyberBullied) / sqrt(length(CyberBullied)), .groups = "drop") |>
+#   label_variables(CyberBullied = "Cyber Bullied", FamilyIncome = "Family Income", mean = "*M*", se = "*SE*") |>
+#   apa_table(caption = "Mean Experiened Cyber Bullying (with standard errors)")
+# 
+# CyberBully_Means <- Income_Bullied %>%
+#   group_by(FamilyIncome) %>%
+#   mutate(mean_CyberBullied = mean(n, na.rm=TRUE)) %>%
+#   ungroup()
+# # 
+# rmse_FamilyIncome <- CyberBully_Means %>%
+#   yardstick::rmse(FamilyIncome, mean_CyberBullied)
+# 
+# rmse_FamilyIncome %>% 
+#   mutate(Measure = .metric, Estimate = .estimate) %>%
+#   select(Measure, Estimate) %>%
+#   kable() %>%
+#   kable_styling("striped", full_width = F, latex_options = "HOLD_position")
 
 
 ```
@@ -443,56 +458,56 @@ rmse_FamilyIncome %>%
   
 ```{r, echo=FALSE, warning=FALSE}
 
-x = Gender_Bullied$FamilyIncomeRange
-y2 = Gender_Bullied$CyberBulliedAnswer
-y1 = Gender_Bullied$Gender
-
-to_plot <- data.frame(x=x,y1=y1,y2=y2)
-melted <- melt(to_plot, id="x")
-
-ggplot(melted,aes(x=x,y=value,fill=variable)) + geom_bar(stat="identity", position = "dodge", alpha=.5) +
-  labs (y = "Gender",
-        title  = "Occurence of Cyber Bullying by Family Income Bracket by Gender") +
-  coord_flip() +
-  xlab("Family Income Bracket") +
-  theme(legend.position="bottom") +
-  scale_fill_manual(name = "Cyber Bullying?",
-                    values = c("Cyan", "Orange"),
-                    labels = c("Yes", "No"))
+# x = Gender_Bullied$FamilyIncomeRange
+# y2 = Gender_Bullied$CyberBulliedAnswer
+# y1 = Gender_Bullied$Gender
+# 
+# to_plot <- data.frame(x=x,y1=y1,y2=y2)
+# melted <- melt(to_plot, id="x")
+# 
+# ggplot(melted,aes(x=x,y=value,fill=variable)) + geom_bar(stat="identity", position = "dodge", alpha=.5) +
+#   labs (y = "Gender",
+#         title  = "Occurence of Cyber Bullying by Family Income Bracket by Gender") +
+#   coord_flip() +
+#   xlab("Family Income Bracket") +
+#   theme(legend.position="bottom") +
+#   scale_fill_manual(name = "Cyber Bullying?",
+#                     values = c("Cyan", "Orange"),
+#                     labels = c("Yes", "No"))
 
 
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
 
-y = Gender_Bullied$CyberBulliedAnswer
-x = Gender_Bullied$EducationLevel
-
-# scatterplot with linear fit line
-ggplot(Gender_Bullied,
-       aes(x = EducationLevel, 
-           y = CyberBullied)) +
-  geom_area(color= "steelblue", fill="steelblue") +
-  geom_smooth(method = "lm", formula='y~x', color="indian red")
+# y = Gender_Bullied$CyberBulliedAnswer
+# x = Gender_Bullied$EducationLevel
+# 
+# # scatterplot with linear fit line
+# ggplot(Gender_Bullied,
+#        aes(x = EducationLevel, 
+#            y = CyberBullied)) +
+#   geom_area(color= "steelblue", fill="steelblue") +
+#   geom_smooth(method = "lm", formula='y~x', color="indian red")
 
 ```
 
 ```{r, echo=FALSE}
 
-y = dfCPSSubset$CyberBulliedAnswer
-x = dfCPSSubset$GeographicDivision
-
-ggplot(to_plot,
-       aes(x = x,
-           y = y)) +
-
-  geom_jitter(alpha=.8) +
-  geom_smooth(formula = y ~ x, method = "lm") +
-  labs(title = "Cyber Bullying by Geographic Divisions",
-       x = "Geographic Division",
-       y = "Cyber Bullying Incidents") +
-  theme_minimal() +
-  theme(legend.position = "none")
+# y = dfCPSSubset$CyberBulliedAnswer
+# x = dfCPSSubset$GeographicDivision
+# 
+# ggplot(to_plot,
+#        aes(x = x,
+#            y = y)) +
+# 
+#   geom_jitter(alpha=.8) +
+#   geom_smooth(formula = y ~ x, method = "lm") +
+#   labs(title = "Cyber Bullying by Geographic Divisions",
+#        x = "Geographic Division",
+#        y = "Cyber Bullying Incidents") +
+#   theme_minimal() +
+#   theme(legend.position = "none")
 
 ```
 
