@@ -1,6 +1,6 @@
 ---
-title             : "Final Report"
-shorttitle        : "Final"
+title             : "Prevalence of Cyberbullying in the United States"
+shorttitle        : "Cyberbully"
 
 author: 
   - name          : "Bridger Moreland"
@@ -14,7 +14,7 @@ class             : "LLO-8200, Introduction to Data Science"
 
 professor         : "Dr. Rafael Garcia"
 
-date              : "4/13/2022"
+date              : "4/25/2022"
   
 keywords          : "Cyber Bullying"
 wordcount         : "1380"
