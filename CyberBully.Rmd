@@ -82,7 +82,10 @@ dev.packages <- c("r-lib/devtools",
                   "thomasp85/ggforce",
                   "yihui/tinytex",
                   "crsh/papaja",
-                  "crsh/citr"
+                  "crsh/citr",
+                  "topepo/caret/pkg/caret",
+                  "truecluster/ff",
+                  "ropensci/skimr"
               )
 
 # Install Packages
@@ -90,7 +93,7 @@ ipak_gh(dev.packages)
 
 ## Load packages
 #tinytex::install_tinytex()
-PayloadPackages <- rlang::quos(devtools, tidyverse, tigris, sf, censusapi, ggforce, tinytex, papaja, citr)
+PayloadPackages <- rlang::quos(devtools, tidyverse, tigris, sf, censusapi, ggforce, tinytex, papaja, citr, caret, ff, skimr, knitr)
 
 invisible(lapply(lapply(PayloadPackages, rlang::quo_name),
   library,
@@ -441,6 +444,8 @@ Age_Bullied %>%
 
 ```
 
+
+
 ```{r, echo=FALSE, warning=FALSE}
 
 # y = Gender_Bullied$CyberBulliedAnswer
@@ -474,55 +479,119 @@ Age_Bullied %>%
 
 ```
 
-## Conditional mean of dependent variables:
-
-
+## Conditional mean of variables
   
   
-```{r CalculateMean, include=FALSE}
+```{r CalculateMean, include=TRUE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
-# objDependentVariable <- dfCPSComputerSupplement$CyberBullied
-# objIndependentVariable1 <- dfCPSComputerSupplement$FamilyIncomeRange
-# 
-# summarise(dfCPSComputerSupplement, '% Cyber Bullied' = mean(objDependentVariable))
-# 
-# by(data = objDependentVariable, INDICES = objIndependentVariable1, FUN = mean)
-# 
-# dfCPSComputerSupplement |>
-#   group_by(CyberBullied, FamilyIncome) |>
-#   summarise(mean = mean(CyberBullied), se = sd(CyberBullied) / sqrt(length(CyberBullied)), .groups = "drop") |>
-#   label_variables(CyberBullied = "Cyber Bullied", FamilyIncome = "Family Income", mean = "*M*", se = "*SE*") |>
-#   apa_table(caption = "Mean Experiened Cyber Bullying (with standard errors)")
-# 
-# CyberBully_Means <- Income_Bullied %>%
-#   group_by(FamilyIncome) %>%
-#   mutate(mean_CyberBullied = mean(n, na.rm=TRUE)) %>%
-#   ungroup()
-# # 
-# rmse_FamilyIncome <- CyberBully_Means %>%
-#   yardstick::rmse(FamilyIncome, mean_CyberBullied)
-# 
-# rmse_FamilyIncome %>% 
-#   mutate(Measure = .metric, Estimate = .estimate) %>%
-#   select(Measure, Estimate) %>%
-#   kable() %>%
-#   kable_styling("striped", full_width = F, latex_options = "HOLD_position")
+# Change locale if necessary to view histograms on the summary chart
+# fix_windows_histograms()
+
+# Create the training and test datasets
+dfTargetVariables <- subset(dfCPSComputerSupplement, select=c("CyberBullied", "Age", "FamilyIncome", "USState", "Race", "Gender", "MetroAreaSizeCode", "EducationLevelCode", "HasDisability", "HaveHighSpeedInternet","HaveLaptop","HaveSmartPhone", "HighestConcernisBullying"))
+dfTargetVariables <- dfTargetVariables %>% mutate(across(where(is.character), as.integer))
+set.seed(100)
+trainRowNumbers <- createDataPartition(dfTargetVariables$CyberBullied, p=0.8, list=FALSE)
+trainData <- dfTargetVariables[trainRowNumbers,]
+testData <- dfTargetVariables[-trainRowNumbers,]
+skimr_include_summary = FALSE
+kable(skim(trainData))
+
+```
+```{r HighlightData}
+# Preprocess data
+trainRowNumbers <- createDataPartition(dfTargetVariables$CyberBullied, p=0.8, list=FALSE)
+
+# Create the training  dataset
+trainData <- dfTargetVariables[trainRowNumbers,]
+
+# Create the test dataset
+testData <- dfTargetVariables[-trainRowNumbers,]
+
+
+# Store X and Y for later use.
+x = trainData[,2:13]
+y = trainData$CyberBullied
+preProcess_range_model <- preProcess(trainData, method='range')
+trainData <- predict(preProcess_range_model, newdata = trainData)
+
+# Append the Y variable
+trainData$CyberBullied <- y
+
+apply(trainData[, 1:13], 2, FUN=function(x){c('min'=min(x), 'max'=max(x))})
+
+# Create feature plots
+featurePlot(x = trainData[, 1:13], 
+            y = as.factor(trainData$CyberBullied), 
+            plot = "box",
+            strip=strip.custom(par.strip.text=list(cex=.7)),
+            scales = list(x = list(relation="free"), 
+                          y = list(relation="free")))
+
+```
+
+## Building a Predictive Model for CyberBullying in the US
+
+The descriptive statistics and conditional means calculated above leads to a regression predicting whether or not a respondent will encounter cyberbullying should include the following predictors and covariates: family income levels, age, state where respondent lives, and Educational Level. Other variables were dropped due to little suspected correlation given the above visualizations mean calculations. Model test data was further limited to 2019 census information due to size of data set.
+
+```{r SetupTrainingDatasetinclude=TRUE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+# limit dataset to desired fields of interest
+
+dfTargetVariables <- filter(dfCPSComputerSupplement, InterviewYear==2019)
+dfTargetVariables <- subset(dfTargetVariables, select=c("CyberBullied", "Age", "FamilyIncome", "USState", "EducationLevelCode"))
+dfTargetVariables <- dfTargetVariables %>% mutate(across(where(is.character), as.integer))
+
+# setting seed to generate a reproducible random sampling
+set.seed(1028)
+ 
+# creating training data as 80% of the dataset
+random_sample <- createDataPartition(dfTargetVariables$CyberBullied,
+                                p = 0.8, list = FALSE)
+ 
+# generating training dataset from the random_sample
+training_dataset  <- dfTargetVariables[random_sample, ]
+ 
+# generating testing dataset from rows which are not included in random_sample
+testing_dataset <- dfTargetVariables[-random_sample, ]
+ 
+# training the model by assigning CyberBullied column as target variable and rest other columns as independent variables
+model <- lm(CyberBullied ~., data = training_dataset)
+ 
+# predicting the target variable
+predictions <- predict(model, testing_dataset)
+ 
+# computing model performance metrics
+data.frame( R2 = R2(predictions, testing_dataset$CyberBullied),
+            RMSE = RMSE(predictions, testing_dataset$CyberBullied),
+            MAE = MAE(predictions, testing_dataset$CyberBullied))
+
+
+```
+# Model Validation and Quality using LOOCV
+
+To further validate this model given the over 100,000 observations available, a Leave One Out Cross-Validation(LOOCV) was performed by spliting the census dataset into 2 parts and training the model by leaving out one variable at a time. In this case, likelihood of cyberbullying was tested against family income levels, age, and state.
+
+```{r ModelValidation}
+
+# # defining training control as Leave One Out Cross Validation
+train_control <- trainControl(method = "LOOCV")
+# # training the model by assigning CyberBullied column as target variable and rest other column as independent variable
+model <- train(CyberBullied ~., data = dfTargetVariables,
+               method = "lm",
+               trControl = train_control)
+
+ 
+# printing model performance metrics
+# along with other details
+print(model)
 
 
 ```
 
-
-## Building a Predictive Model for Student ENDS Use
-
-The descriptive statistics and conditional means calculated above leads to a regression predicting whether or not a respondent will encounter cyberbullying should include the following predictors and covariates: family income levels, age, state where respondent lives. 
-
-```{r}
-
-```
-
-
-# Next Steps
+# Key Findings, Limitations, and Next Steps
   
   The next steps toward identifying possible leading indicators of targets to Cyber Bullying will include extending the temporal data set with a second census survey and analyzing any changes in reported Cyber Bullying cases using data science tools available in R, a validation of the predictive model, and a summary of the findings. 
 
