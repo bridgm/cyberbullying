@@ -678,9 +678,26 @@ data.frame( R2 = R2(predictions, testing_dataset$CyberBullied),
 ```
 # Model Validation and Quality using LOOCV
 
-To further validate this model given the quantity of observations available, I fit a linear regression model using a Leave One Out Cross-Validation(LOOCV). This was performed by spliting the census dataset subset into 2 parts and training the model by leaving out one variable at a time. In this case, likelihood of cyberbullying was tested against family income levels, age, and state of residence.
+To further validate this model given the quantity of observations available, I fit a linear regression model using a Leave One Out Cross-Validation(LOOCV). This was performed by splitting the census data set subset into 2 parts and training the model by leaving out one variable at a time. In this case, likelihood of cyberbullying was tested against family income levels, age, and state of residence.
 
 ```{r ModelValidation}
+# quick sanity check using glm vs lm for the cross-validation prediction error
+Income.glm.fit <- glm(CyberBullied~FamilyIncome, data=dfCPSComputerSupplement)
+coef(glm.fit)
+Income.lm.fit <- lm(CyberBullied~FamilyIncome, data=dfCPSComputerSupplement)
+coef(Income.lm.fit)
+
+# plot assumptions for Income
+par(mfrow = c(2, 2))
+plot(Income.lm.fit)
+
+# plot assumptions for Age
+Age.lm.fit <- lm(CyberBullied~Age, data=dfCPSComputerSupplement)
+plot(Age.lm.fit)
+
+# plot assumptions for State
+State.lm.fit <- lm(CyberBullied~USState, data=dfCPSComputerSupplement)
+plot(State.lm.fit)
 
 # # defining training control as Leave One Out Cross Validation
 train_control <- trainControl(method = "LOOCV")
