@@ -5,12 +5,12 @@ date: "`r Sys.Date()`"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+```{r EnvironmentSetup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
-# This package install script was modified by @timathomas, adapted from the ipak function created by @stevenworthington https://gist.github.com/stevenworthington/3178163
+## This package install script, as modified by @timathomas, was adapted from the ipak function created by @stevenworthington https://gist.github.com/stevenworthington/3178163
 
-# Install Package Function via Github Method to Avoid Binary Errors
+# Install Package Function via Github Method to Avoid Binary Versioning Errors
 ipak_gh <- function(pkg){
     new.pkg <- pkg[!(sub('.*/', '', pkg) %in% installed.packages()[, "Package"])]
     if (length(new.pkg)) 
@@ -25,14 +25,35 @@ dev.packages <- c("r-lib/devtools",
                   "walkerke/tigris",
                   "r-spatial/sf",
                   "hrecht/censusapi",
-                  "r-lib/httr",
                   "thomasp85/ggforce",
                   "yihui/tinytex",
                   "crsh/papaja",
-                  "crsh/citr"
+                  "crsh/citr",
+                  "topepo/caret/pkg/caret",
+                  "truecluster/ff",
+                  "ropensci/skimr"
               )
 
 # Install Packages
 ipak_gh(dev.packages)
 
+## Load packages
+#tinytex::install_tinytex()
+PayloadPackages <- rlang::quos(devtools, tidyverse, tigris, sf, censusapi, ggforce, tinytex, papaja, citr, caret, ff, skimr, knitr)
+
+invisible(lapply(lapply(PayloadPackages, rlang::quo_name),
+  library,
+  character.only = TRUE
+))
+
+options(tigris_use_cache = TRUE)
+
+# Set Them Colors
+themecolor1="#DAF7A6"
+themecolor2="#C70039"
+
+# Cleanup
+rm(dev.packages)
+rm(PayloadPackages)
 ```
+

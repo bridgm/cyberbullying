@@ -31,7 +31,7 @@ figurelist        : no
 tablelist         : no
 footnotelist      : no
 
-classoption       : "man"
+classoption       : "stu"
 output            : papaja::apa6_pdf
 
 ---
@@ -57,7 +57,7 @@ The rise of social media, and the technology impact in general, adds to the gene
   
 # Data analysis
   
-  For this effort I will be using a data set derived from the US Census Bureau where respondents were asked about online harassment, stalking, or cyber-bullying for any member of their household. Only three of their most current supplemental surveys address these specific data elements. Data was collected from the July, 2015, November, 2017, and November 2019 versions of the Current Population Survey, Computer, and Internet Use Supplement [@2019_cps_computer_and_internet_use_2019].
+  While there are dozens of different research efforts measuring the effects of this harassing behavior, for this effort I will be using one of the largest data sets derived from the US Census Bureau where respondents were asked about online harassment, stalking, or cyber-bullying for any member of their household. Only three of their most current supplemental surveys address these specific data elements. Data was collected from the 2015, 2017, and 2019 versions of the Current Population Survey, Computer, and Internet Use Supplement [@2019_cps_computer_and_internet_use_2019] which had combined observances of over 300,000. Led by evaluations of the literature review, along with total family income to address my research question, I also selected variables to examine from the data set of surveyed households of state of residence, metro area size, age, gender identifier, education level, and race.
   
 ```{r EnvironmentSetup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
@@ -105,14 +105,18 @@ options(tigris_use_cache = TRUE)
 # Set Them Colors
 themecolor1="#DAF7A6"
 themecolor2="#C70039"
-```
 
+# Cleanup
+rm(dev.packages)
+rm(PayloadPackages)
+```
 
 ```{r SetCensusAPIkey, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
-# Add census API key to .Renviron, request from https://api.census.gov/data/key_signup.html
-Sys.setenv(CENSUS_KEY="f5d8b2f3e08318d13f7fa7f65920e2560cb2ee45")
+# Add census API key to .Renviron, request from https://api.census.gov/data/key_signup.html.
+# Uncomment this next line, insert key value received from above, and only run once
+Sys.setenv(CENSUS_KEY="f5d8b2f3e08318d13f7fa7f65920e2560cb2ee45") #remove key after use and re-comment this line
 # Reload .Renviron
 readRenviron("~/.Renviron")
 # Check to see that the expected key is output in your R console
@@ -121,21 +125,21 @@ Sys.getenv("CENSUS_KEY")
 ```
 
 ```{r LoadCensusData, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, cache = TRUE)
 
 #Read in "Census Data - CPS Computer & Internet Usage Supplemental" containing our dependent variable.
 dfCPS2019ComputerSupplement <- getCensus( 
                 name = "cps/internet/nov", 
                 vintage = 2019,
-                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "PRNLFSCH", "PRDISFLG", "HEDESKTP", "HELAPTOP", "HETABLET", "HEMPHONE", "HETVBOX", "HEINHOME", "HEHOMTE1", "PETEXTIM", "PESOCIAL", "HEPSCON6", "HECBULLY"))
+                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "HECBULLY"))
 dfCPS2017ComputerSupplement <- getCensus( 
                 name = "cps/internet/nov", 
                 vintage = 2017,
-                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "PRNLFSCH", "PRDISFLG", "HEDESKTP", "HELAPTOP", "HETABLET", "HEMPHONE", "HETVBOX", "HEINHOME", "HEHOMTE1", "PETEXTIM", "PESOCIAL", "HEPSCON6", "HECBULLY"))
+                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "HECBULLY"))
 dfCPS2015ComputerSupplement <- getCensus( 
                 name = "cps/internet/jul", 
                 vintage = 2015,
-                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "PRNLFSCH", "PRDISFLG", "HEDESKTP", "HELAPTOP", "HETABLET", "HEMPHONE", "HETVBOX", "HEINHOME", "HEHOMTE1", "PETEXTIM", "PESOCIAL", "HEPSCON6", "HECBULLY"))
+                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "HECBULLY"))
 
 ```
 
@@ -144,6 +148,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 # Combine all 3 survey years and cleanup
 dfCPSComputerSupplement <- bind_rows(dfCPS2019ComputerSupplement, dfCPS2017ComputerSupplement, dfCPS2015ComputerSupplement)
+dfCPSComputerSupplement <- dfCPSComputerSupplement %>% mutate(across(where(is.character), as.integer))
 rm(dfCPS2019ComputerSupplement)
 rm(dfCPS2017ComputerSupplement)
 rm(dfCPS2015ComputerSupplement)
@@ -159,18 +164,6 @@ dfCPSComputerSupplement <- dfCPSComputerSupplement %>%
          Gender = PESEX,
          EducationLevelCode = PEEDUCA,
          Race = PTDTRACE,
-         IsStudent = PRNLFSCH,
-         HasDisability = PRDISFLG,
-         HaveDesktop = HEDESKTP, 
-         HaveLaptop = HELAPTOP, 
-         HaveTablet = HETABLET, 
-         HaveSmartPhone = HEMPHONE, 
-         HaveTVGamingSystem = HETVBOX, 
-         HaveHomeIternet = HEINHOME, 
-         HaveHighSpeedInternet = HEHOMTE1,
-         UseTexting = PETEXTIM,
-         UseSocialMedia = PESOCIAL,
-         HighestConcernisBullying = HEPSCON6,
          CyberBullied = HECBULLY
          )
 
@@ -193,9 +186,6 @@ dfEducationLevel <- data.frame("EducationLevelCode" = c("31", "32", "33", "34", 
 dfRace <- data.frame("Race" = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"),
                      "RaceDescription" = c("White Only", "Black Only", "American Indian, Alaskan Native Only", "Asian Only", "Hawaiian/Pacific Islander Only", "White-Black", "White-AI", "White-Asian", "White-HP", "Black-AI", "Black-Asian", "Black-HP", "AI-Asian", "AI-HP", "Asian-HP", "W-B-AI", "W-B-A", "W-B-HP", "W-AI-A", "W-AI-HP", "W-A-HP", "B-AI-A", "W-B-AI-A", "W-AI-A-HP", "Other 3 Race Combinations", "Other 4 and 5 Race Combinations"))
 
-dfStudentStatus <- data.frame("IsStudent" = c("1", "2"),
-                             "StudentStatus" =  c("IN SCHOOL", "NOT IN SCHOOL"))
-
 dfYesNoAnswers <- data.frame("CyberBullied" = c("-1","1","2"), "CyberBulliedAnswer" = c("NA","Yes","No"))
 
 # Include survey values with friendly values from look up tables
@@ -204,7 +194,6 @@ dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfEducationLevel, by="
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfMetroAreaSizes, by="MetroAreaSizeCode", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfGender, by="Gender", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfRace, by="Race", all.x=TRUE)
-dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfStudentStatus, by="IsStudent", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfUSStates, by="USState", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfFamilyIncome, by="FamilyIncome", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfYesNoAnswers, by="CyberBullied", all.x=TRUE)
@@ -212,6 +201,8 @@ dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfYesNoAnswers, by="Cy
 ```
 
 ## Census Dataset Summary
+
+  According to a summary of the raw results of our dependent variable, approximately 3.23% of respondents reported cyberbullying for someone in their household. This finding runs contrary to other studies with smaller subject pools that report much higher percentage of the population examined reported affirmatively they were subjected to cyberbullying. This suggests a diminished confidence in reliability of our results due to the incongruities between the census survey data and the dozens of other studies on the topic performed within the same time frames. At over 17%, there were also a significant number of participants that chose not to answer this question. This fact was not surprising given the sensitivity of this topic to many individuals. It does align with what other researchers have described in their own experiences collecting similar information.
 
 ```{r SummarizeCyberbullyResponses, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -240,12 +231,45 @@ total_bullied.hist <- ggplot(CyberBully_Summation, aes(x = x, y = y)) +
   ) +
    scale_y_continuous(expand = expansion(mult = c(.05, .05)), labels = scales::label_comma())
 total_bullied.hist
-
-
 ```
 
+## Cyberbullying by Year
+
+  The number of affirmative responses over all three years of similar size observations does indicate a level of consistency that adds weight to its useful feasibility. There was minimal variability for a data set this large. Inconsistencies with other surveys, while still noticeable enough for further investigation in future studies, could possibly be attributed to differing survey methodologies, the research goals, or biased with access to targeted populations containing higher likelihood of occurrences. For those reasons I considered this data set viable and continued with further analysis.
+  
+```{r SummarizeCyberbullybyYear, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Summarize Answers for Cyberbullied Reportings
+CyberBully_Year <- filter(dfCPSComputerSupplement, CyberBulliedAnswer=="Yes")
+CyberBully_Year <- CyberBully_Year%>%
+    group_by(InterviewYear)%>%
+    summarize(count=n())
+
+x = CyberBully_Year$InterviewYear
+y = CyberBully_Year$count
+
+total_bullied.hist <- ggplot(CyberBully_Year, aes(x = x, y = y)) +
+  geom_bar(stat = "identity", fill = themecolor2) +
+  geom_text(aes(label = y), vjust = -0.2, color = "black") +
+  labs(title = "Summary of Reported Cyberbullying by Year",
+       x = "Year",
+       y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    panel.background = element_rect(themecolor1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black")
+  ) +
+   scale_y_continuous(expand = expansion(mult = c(.05, .05)), labels = scales::label_comma())
+total_bullied.hist
+```
 
 ## Cyberbullying Experienced in the US by Household Income Levels.
+
+
 
 ```{r CyberbullyByIncome, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -253,7 +277,6 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 Income_Bullied <- dfCPSComputerSupplement %>% count(FamilyIncome, FamilyIncomeRange, CyberBulliedAnswer, InterviewYear)
 Income_Bullied <- filter(Income_Bullied, CyberBulliedAnswer=="Yes")
 Income_Bullied$Sqrt.n <- sqrt(Income_Bullied$n)
-# Income_Bullied[order(as.numeric(Income_Bullied$FamilyIncome)),]
 
 # Build Histogram
 Income_Bullied.heatmap <- Income_Bullied %>%
@@ -281,16 +304,50 @@ Income_Bullied.heatmap <- Income_Bullied %>%
 Income_Bullied.heatmap
 
 ```
+
+## Cyberbullying Experienced in the US by Household Education Levels.
+
+```{r CyberbullyByEducation, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+Education_Bullied <- dfCPSComputerSupplement %>% count(EducationLevelCode, EducationLevel, CyberBulliedAnswer, InterviewYear)
+Education_Bullied <- filter(Education_Bullied, CyberBulliedAnswer=="Yes")
+Education_Bullied$Sqrt.n <- sqrt(Education_Bullied$n)
+
+# Build Histogram
+Education_Bullied.heatmap <- Education_Bullied %>%
+  ggplot(data = Education_Bullied,
+         mapping = aes(
+           x = InterviewYear,
+           y = reorder(EducationLevel, as.integer(EducationLevelCode)),
+           fill = Sqrt.n
+         )) +
+  geom_tile() +
+  xlab(label = "Reported Occurences of Cyberbullying") +
+  ylab(label = "Education Level") +
+  ggtitle(label = "Cyberbullying Experienced in the US by Education Levels") +
+  facet_grid( ~ InterviewYear, scales = "free_x", space = "free_x") +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    plot.title = element_text(hjust = 0.5),
+    strip.background = element_rect(fill = "#EEEEEE", color = "#EEEEEE")
+  ) +
+  scale_fill_gradient(name = "Sqrt(n)",
+                      low = themecolor1,
+                      high = themecolor2)
+
+Education_Bullied.heatmap
+
+```
+
 ## Cyberbullying Occurances by Gender
 
-```{r}
+```{r GenderBullied, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 Gender_Bullied <- dfCPSComputerSupplement %>% 
                   count(FamilyIncomeRange, CyberBulliedAnswer, InterviewYear, GenderIdentifier)
 Gender_Bullied <-filter(Gender_Bullied, CyberBulliedAnswer=="Yes")
-# Gender_Bullied %>%
-#   group_by(InterviewYear)%>%
-#   summarize(TotalbyGender=sum(GenderIdentifier), TotalCyberBullied=sum(CyberBullied)) 
-
 y2= Gender_Bullied$GenderIdentifier
 y1 = Gender_Bullied$FamilyIncomeRange
 x = Gender_Bullied$InterviewYear
@@ -309,31 +366,10 @@ Gender_Bullied %>%
       scale_color_manual(values=c(themecolor2, "#E69F00", themecolor1))+
     scale_fill_manual(values=c(themecolor2, "#E69F00", themecolor1))
 
-Gender_Bullied %>%
-  ggplot(data = Gender_Bullied,
-         mapping = aes(
-           x = InterviewYear,
-           y = GenderIdentifier,
-           fill = n
-         )) +
-  geom_tile() +
-  xlab(label = "Reported Occurences of Cyberbullying") +
-  ylab(label = "Gender Identity") +
-  ggtitle(label = "Cyberbullying Experienced in the US by Gender Identity") +
-  facet_grid( ~ InterviewYear, scales = "free_x", space = "free_x") +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    plot.title = element_text(hjust = 0.5),
-    strip.background = element_rect(fill = "#EEEEEE", color = "#EEEEEE")
-  ) +
-  scale_fill_gradient(name = "Sqrt(n)",
-                      low = themecolor1,
-                      high = themecolor2)
-
 ```
 
 ## Cyber Bullying experienced in the US by State.
+  While some states were missing from the data set from this particular supplemental survey, the majority of the state identified data was enough to suggest that geography could play a part in propensity for cyberbullying. After smoothing the data, Texas and Florida were high on occurrence, while Missouri, the first state to enact laws that specifically called out cyberbullying as a punishable office, ranked one of the lowest in likelihood to encounter cyberbullying. The resulting map was filtered to include only the lower 48 states.
 
 ```{r CyberbullyByState, include=TRUE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
@@ -378,13 +414,11 @@ States_Bullied.heatmap <- States_Bullied %>%
 
 States_Bullied.heatmap
 
-
-
 ```
 
 ## Cyberbullying Occurences by Age
 
-```{r DemographicIndicators, include=TRUE}
+```{r CyberbulliedByAge, include=TRUE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 # Age Dataset
@@ -417,10 +451,81 @@ Age_Bullied %>%
     plot.title = element_text(hjust = 0.5, size = 14)
   )
 
+```
+
+## Cyberbullying Occurences by Race
+
+```{r CyberbulliedByRace, include=TRUE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+Race_Bullied <- dfCPSComputerSupplement %>% count(Race, RaceDescription, CyberBulliedAnswer, InterviewYear)
+Race_Bullied <- filter(Race_Bullied, CyberBulliedAnswer=="Yes")
+Race_Bullied$Sqrt.n <- sqrt(Race_Bullied$n)
+
+# Build Histogram
+Race_Bullied.heatmap <- Race_Bullied %>%
+  ggplot(data = Race_Bullied,
+         mapping = aes(
+           x = InterviewYear,
+           y = reorder(RaceDescription, as.integer(Race)),
+           fill = Sqrt.n
+         )) +
+  geom_tile() +
+  xlab(label = "Reported Occurences of Cyberbullying") +
+  ylab(label = "Race") +
+  ggtitle(label = "Cyberbullying Experienced in the US by Race") +
+  facet_grid( ~ InterviewYear, scales = "free_x", space = "free_x") +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    plot.title = element_text(hjust = 0.5),
+    strip.background = element_rect(fill = "#EEEEEE", color = "#EEEEEE")
+  ) +
+  scale_fill_gradient(name = "Sqrt(n)",
+                      low = themecolor1,
+                      high = themecolor2)
+
+Race_Bullied.heatmap
 
 ```
 
-## Bivariate graphics comparing dependent variables with independent variables:
+## Cyberbullying Occurences by Metro Area Sizes
+
+```{r CyberbullyedByUrbanization, include=TRUE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+Metro_Bullied <- dfCPSComputerSupplement %>% count(MetroAreaSizeCode, MetroAreaSize, CyberBulliedAnswer, InterviewYear)
+Metro_Bullied <- filter(Metro_Bullied, CyberBulliedAnswer=="Yes")
+Metro_Bullied$Sqrt.n <- sqrt(Metro_Bullied$n)
+
+# Build Histogram
+Metro_Bullied.heatmap <- Metro_Bullied %>%
+  ggplot(data = Metro_Bullied,
+         mapping = aes(
+           x = InterviewYear,
+           y = reorder(MetroAreaSize, as.integer(MetroAreaSizeCode)),
+           fill = Sqrt.n
+         )) +
+  geom_tile() +
+  xlab(label = "Reported Occurences of Cyberbullying") +
+  ylab(label = "Metro Area Size") +
+  ggtitle(label = "Cyberbullying Experienced in the US by Metro Size") +
+  facet_grid( ~ InterviewYear, scales = "free_x", space = "free_x") +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    plot.title = element_text(hjust = 0.5),
+    strip.background = element_rect(fill = "#EEEEEE", color = "#EEEEEE")
+  ) +
+  scale_fill_gradient(name = "Sqrt(n)",
+                      low = themecolor1,
+                      high = themecolor2)
+
+Metro_Bullied.heatmap
+
+```
+
+## Compare means across dependent variables with independent variables:
   
 ```{r, echo=FALSE, warning=FALSE}
 
@@ -489,7 +594,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 # fix_windows_histograms()
 
 # Create the training and test datasets
-dfTargetVariables <- subset(dfCPSComputerSupplement, select=c("CyberBullied", "Age", "FamilyIncome", "USState", "Race", "Gender", "MetroAreaSizeCode", "EducationLevelCode", "HasDisability", "HaveHighSpeedInternet","HaveLaptop","HaveSmartPhone", "HighestConcernisBullying"))
+dfTargetVariables <- subset(dfCPSComputerSupplement, select=c("CyberBullied", "Age", "FamilyIncome", "USState", "Race", "Gender", "MetroAreaSizeCode", "EducationLevelCode", "HasDisability"))
 dfTargetVariables <- dfTargetVariables %>% mutate(across(where(is.character), as.integer))
 set.seed(100)
 trainRowNumbers <- createDataPartition(dfTargetVariables$CyberBullied, p=0.8, list=FALSE)
@@ -499,6 +604,8 @@ skimr_include_summary = FALSE
 kable(skim(trainData))
 
 ```
+
+
 ```{r HighlightData}
 # Preprocess data
 trainRowNumbers <- createDataPartition(dfTargetVariables$CyberBullied, p=0.8, list=FALSE)
@@ -511,7 +618,7 @@ testData <- dfTargetVariables[-trainRowNumbers,]
 
 
 # Store X and Y for later use.
-x = trainData[,2:13]
+x = trainData[,2:9]
 y = trainData$CyberBullied
 preProcess_range_model <- preProcess(trainData, method='range')
 trainData <- predict(preProcess_range_model, newdata = trainData)
@@ -519,10 +626,10 @@ trainData <- predict(preProcess_range_model, newdata = trainData)
 # Append the Y variable
 trainData$CyberBullied <- y
 
-apply(trainData[, 1:13], 2, FUN=function(x){c('min'=min(x), 'max'=max(x))})
+apply(trainData[, 1:9], 2, FUN=function(x){c('min'=min(x), 'max'=max(x))})
 
 # Create feature plots
-featurePlot(x = trainData[, 1:13], 
+featurePlot(x = trainData[, 1:9], 
             y = as.factor(trainData$CyberBullied), 
             plot = "box",
             strip=strip.custom(par.strip.text=list(cex=.7)),
@@ -533,7 +640,7 @@ featurePlot(x = trainData[, 1:13],
 
 ## Building a Predictive Model for CyberBullying in the US
 
-The descriptive statistics and conditional means calculated above leads to a regression predicting whether or not a respondent will encounter cyberbullying should include the following predictors and covariates: family income levels, age, state where respondent lives, and Educational Level. Other variables were dropped due to little suspected correlation given the above visualizations mean calculations. Model test data was further limited to 2019 census information due to size of data set.
+The descriptive statistics and conditional means calculated above leads to a regression predicting whether or not a respondent will encounter cyberbullying should include the following predictors and covariates: family income levels, age, state where respondent lives, and Educational Level. Other variables were dropped due to little suspected correlation given the above visualizations mean calculations. Model test data was further limited to 10,000 randomly selected observations from the 2019 census information due to size of data set and ability to process model calculations.
 
 ```{r SetupTrainingDatasetinclude=TRUE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
@@ -541,15 +648,15 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 # limit dataset to desired fields of interest
 
 dfTargetVariables <- filter(dfCPSComputerSupplement, InterviewYear==2019)
-dfTargetVariables <- subset(dfTargetVariables, select=c("CyberBullied", "Age", "FamilyIncome", "USState", "EducationLevelCode"))
-dfTargetVariables <- dfTargetVariables %>% mutate(across(where(is.character), as.integer))
+dfTargetVariables <- subset(dfTargetVariables, select=c("CyberBullied", "Age", "FamilyIncome", "USState"), dbname = tempfile())
+dfTargetVariables <- sample_n(dfTargetVariables, 10000)
 
 # setting seed to generate a reproducible random sampling
-set.seed(1028)
+# set.seed(2056)
  
 # creating training data as 80% of the dataset
 random_sample <- createDataPartition(dfTargetVariables$CyberBullied,
-                                p = 0.8, list = FALSE)
+                                p = 0.9, list = FALSE)
  
 # generating training dataset from the random_sample
 training_dataset  <- dfTargetVariables[random_sample, ]
@@ -568,7 +675,6 @@ data.frame( R2 = R2(predictions, testing_dataset$CyberBullied),
             RMSE = RMSE(predictions, testing_dataset$CyberBullied),
             MAE = MAE(predictions, testing_dataset$CyberBullied))
 
-
 ```
 # Model Validation and Quality using LOOCV
 
@@ -586,14 +692,14 @@ model <- train(CyberBullied ~., data = dfTargetVariables,
  
 # printing model performance metrics
 # along with other details
-print(model)
+apa_table(model)
 
 
 ```
 
 # Key Findings, Limitations, and Next Steps
   
-  The next steps toward identifying possible leading indicators of targets to Cyber Bullying will include extending the temporal data set with a second census survey and analyzing any changes in reported Cyber Bullying cases using data science tools available in R, a validation of the predictive model, and a summary of the findings. 
+  Still to address are the difficulties in defining this problem in absolutes that could, in turn, provide more reliable data sets for analysis. From there it is hoped there will be indicators for the creation of possible solutions such as targeted awareness education, automated monitoring of social media platforms to provide real-time protection, and development of stronger guidelines to enforce appropriate behaviors. Cyberbullying is one of those conditions that is recognized when observed. But can sometimes be hard to define in absolute mathematical precision. For severe behaviors it can now fall within a legal definition for classification certainty in some locations. For other occurrences, it can be damaging to one victim and perceived as harmless to another. Cyberbullying is a growing problem that has prompted large scale efforts to create safer online spaces by many large organizations and research groups that face issues even creating a data set to detect cyberbullying so that they can intervene. These data sets are difficult to collect, subject to interpretation, specific to language and regional dialects, and expensive to house and maintain. As with most crimes, the lack of black and white categorization often leaves to under reporting and adds to the already difficult task of even measuring the severity of this problem in the US. It is hoped that through more statistical evaluation efforts we can hone in on more predictable indicators to lead to earlier detection and abatement of this problem.
 
 
 ```{r}

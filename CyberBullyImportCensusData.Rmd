@@ -1,34 +1,49 @@
 ---
 title: "CyberBullyImportCensusData"
 author: "Bridger M. Moreland"
-date: '2022-04-23'
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
+
+```{r SetCensusAPIkey, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+# Add census API key to .Renviron, request from https://api.census.gov/data/key_signup.html.
+# Uncomment this next line, insert key value received from above, and only run once
+Sys.setenv(CENSUS_KEY="MY_CENSUS_KEY_GOES_HERE") #remove key after use and re-comment this line
+# Reload .Renviron
+readRenviron("~/.Renviron")
+# Check to see that the expected key is output in your R console
+Sys.getenv("CENSUS_KEY")
+
+```
+
 ```{r LoadCensusData, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 #Read in "Census Data - CPS Computer & Internet Usage Supplemental" containing our dependent variable.
 dfCPS2019ComputerSupplement <- getCensus( 
                 name = "cps/internet/nov", 
                 vintage = 2019,
-                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "PRNLFSCH", "PRDISFLG", "HEDESKTP", "HELAPTOP", "HETABLET", "HEMPHONE", "HETVBOX", "HEINHOME", "HEHOMTE1", "PETEXTIM", "PESOCIAL", "HEPSCON6", "HECBULLY"))
+                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "PRDISFLG", "HECBULLY"))
 dfCPS2017ComputerSupplement <- getCensus( 
                 name = "cps/internet/nov", 
                 vintage = 2017,
-                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "PRNLFSCH", "PRDISFLG", "HEDESKTP", "HELAPTOP", "HETABLET", "HEMPHONE", "HETVBOX", "HEINHOME", "HEHOMTE1", "PETEXTIM", "PESOCIAL", "HEPSCON6", "HECBULLY"))
+                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "PRDISFLG", "HECBULLY"))
 dfCPS2015ComputerSupplement <- getCensus( 
                 name = "cps/internet/jul", 
                 vintage = 2015,
-                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "PRNLFSCH", "PRDISFLG", "HEDESKTP", "HELAPTOP", "HETABLET", "HEMPHONE", "HETVBOX", "HEINHOME", "HEHOMTE1", "PETEXTIM", "PESOCIAL", "HEPSCON6", "HECBULLY"))
+                vars = c("HRHHID", "HRYEAR4", "HEFAMINC", "GESTFIPS", "GTCBSASZ", "PRTAGE", "PESEX", "PEEDUCA", "PTDTRACE", "PRDISFLG", "HECBULLY"))
 
 ```
 
 ```{r ShapeCensusData, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 # Combine all 3 survey years and cleanup
 dfCPSComputerSupplement <- bind_rows(dfCPS2019ComputerSupplement, dfCPS2017ComputerSupplement, dfCPS2015ComputerSupplement)
+dfCPSComputerSupplement <- dfCPSComputerSupplement %>% mutate(across(where(is.character), as.integer))
 rm(dfCPS2019ComputerSupplement)
 rm(dfCPS2017ComputerSupplement)
 rm(dfCPS2015ComputerSupplement)
@@ -44,18 +59,7 @@ dfCPSComputerSupplement <- dfCPSComputerSupplement %>%
          Gender = PESEX,
          EducationLevelCode = PEEDUCA,
          Race = PTDTRACE,
-         IsStudent = PRNLFSCH,
          HasDisability = PRDISFLG,
-         HaveDesktop = HEDESKTP, 
-         HaveLaptop = HELAPTOP, 
-         HaveTablet = HETABLET, 
-         HaveSmartPhone = HEMPHONE, 
-         HaveTVGamingSystem = HETVBOX, 
-         HaveHomeIternet = HEINHOME, 
-         HaveHighSpeedInternet = HEHOMTE1,
-         UseTexting = PETEXTIM,
-         UseSocialMedia = PESOCIAL,
-         HighestConcernisBullying = HEPSCON6,
          CyberBullied = HECBULLY
          )
 
@@ -78,9 +82,6 @@ dfEducationLevel <- data.frame("EducationLevelCode" = c("31", "32", "33", "34", 
 dfRace <- data.frame("Race" = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"),
                      "RaceDescription" = c("White Only", "Black Only", "American Indian, Alaskan Native Only", "Asian Only", "Hawaiian/Pacific Islander Only", "White-Black", "White-AI", "White-Asian", "White-HP", "Black-AI", "Black-Asian", "Black-HP", "AI-Asian", "AI-HP", "Asian-HP", "W-B-AI", "W-B-A", "W-B-HP", "W-AI-A", "W-AI-HP", "W-A-HP", "B-AI-A", "W-B-AI-A", "W-AI-A-HP", "Other 3 Race Combinations", "Other 4 and 5 Race Combinations"))
 
-dfStudentStatus <- data.frame("IsStudent" = c("1", "2"),
-                             "StudentStatus" =  c("IN SCHOOL", "NOT IN SCHOOL"))
-
 dfYesNoAnswers <- data.frame("CyberBullied" = c("-1","1","2"), "CyberBulliedAnswer" = c("NA","Yes","No"))
 
 # Include survey values with friendly values from look up tables
@@ -89,10 +90,8 @@ dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfEducationLevel, by="
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfMetroAreaSizes, by="MetroAreaSizeCode", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfGender, by="Gender", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfRace, by="Race", all.x=TRUE)
-dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfStudentStatus, by="IsStudent", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfUSStates, by="USState", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfFamilyIncome, by="FamilyIncome", all.x=TRUE)
 dfCPSComputerSupplement <- merge(dfCPSComputerSupplement, dfYesNoAnswers, by="CyberBullied", all.x=TRUE)
-
 
 ```

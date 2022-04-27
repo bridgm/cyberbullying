@@ -1,0 +1,63 @@
+---
+title: "GenderGraphs"
+author: "Bridger M. Moreland"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Cyberbullying Occurances by Gender
+
+```{r GenderBullied, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+Gender_Bullied <- dfCPSComputerSupplement %>% 
+                  count(FamilyIncomeRange, CyberBulliedAnswer, InterviewYear, GenderIdentifier)
+Gender_Bullied <-filter(Gender_Bullied, CyberBulliedAnswer=="Yes")
+# Gender_Bullied %>%
+#   group_by(InterviewYear)%>%
+#   summarize(TotalbyGender=sum(GenderIdentifier), TotalCyberBullied=sum(CyberBullied)) 
+
+y2= Gender_Bullied$GenderIdentifier
+y1 = Gender_Bullied$FamilyIncomeRange
+x = Gender_Bullied$InterviewYear
+
+# Build Histogram
+Gender_Bullied %>% 
+  ggplot(aes(n, y= stat(count), fill = GenderIdentifier)) +
+  geom_density(alpha=.5) +
+  # facet_grid(cols = vars(GenderIdentifier)) +
+  labs(title = "Cyberbullying Experienced in the US by Gender Identifier",
+       y = "Frequency",
+       color="Gender Identity") +
+  theme(
+    panel.background = element_blank(),
+    plot.title = element_text(hjust = 0.5, size = 14)) +
+      scale_color_manual(values=c(themecolor2, "#E69F00", themecolor1))+
+    scale_fill_manual(values=c(themecolor2, "#E69F00", themecolor1))
+
+Gender_Bullied %>%
+  ggplot(data = Gender_Bullied,
+         mapping = aes(
+           x = InterviewYear,
+           y = GenderIdentifier,
+           fill = n
+         )) +
+  geom_tile() +
+  xlab(label = "Reported Occurences of Cyberbullying") +
+  ylab(label = "Gender Identity") +
+  ggtitle(label = "Cyberbullying Experienced in the US by Gender Identity") +
+  facet_grid( ~ InterviewYear, scales = "free_x", space = "free_x") +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    plot.title = element_text(hjust = 0.5),
+    strip.background = element_rect(fill = "#EEEEEE", color = "#EEEEEE")
+  ) +
+  scale_fill_gradient(name = "Sqrt(n)",
+                      low = themecolor1,
+                      high = themecolor2)
+
+```
+
+
+
+
