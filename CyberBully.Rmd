@@ -678,7 +678,7 @@ data.frame( R2 = R2(predictions, testing_dataset$CyberBullied),
 ```
 # Model Validation and Quality using LOOCV
 
-To further validate this model given the over 100,000 observations available, a Leave One Out Cross-Validation(LOOCV) was performed by spliting the census dataset into 2 parts and training the model by leaving out one variable at a time. In this case, likelihood of cyberbullying was tested against family income levels, age, and state.
+To further validate this model given the quantity of observations available, I fit a linear regression model using a Leave One Out Cross-Validation(LOOCV). This was performed by spliting the census dataset subset into 2 parts and training the model by leaving out one variable at a time. In this case, likelihood of cyberbullying was tested against family income levels, age, and state of residence.
 
 ```{r ModelValidation}
 
@@ -701,10 +701,6 @@ print(model)
   
   Still to address are the difficulties in defining this problem in absolutes that could, in turn, provide more reliable data sets for analysis. From there it is hoped there will be indicators for the creation of possible solutions such as targeted awareness education, automated monitoring of social media platforms to provide real-time protection, and development of stronger guidelines to enforce appropriate behaviors. Cyberbullying is one of those conditions that is recognized when observed. But can sometimes be hard to define in absolute mathematical precision. For severe behaviors it can now fall within a legal definition for classification certainty in some locations. For other occurrences, it can be damaging to one victim and perceived as harmless to another. Cyberbullying is a growing problem that has prompted large scale efforts to create safer online spaces by many large organizations and research groups that face issues even creating a data set to detect cyberbullying so that they can intervene. These data sets are difficult to collect, subject to interpretation, specific to language and regional dialects, and expensive to house and maintain. As with most crimes, the lack of black and white categorization often leaves to under reporting and adds to the already difficult task of even measuring the severity of this problem in the US. It is hoped that through more statistical evaluation efforts we can hone in on more predictable indicators to lead to earlier detection and abatement of this problem.
 
-
-```{r}
-
-```
 
 \newpage
 
