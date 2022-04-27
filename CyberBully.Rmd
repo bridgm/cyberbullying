@@ -692,7 +692,7 @@ model <- train(CyberBullied ~., data = dfTargetVariables,
  
 # printing model performance metrics
 # along with other details
-apa_table(model)
+print(model)
 
 
 ```
